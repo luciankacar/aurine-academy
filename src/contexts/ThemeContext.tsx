@@ -18,14 +18,31 @@ const getSystemTheme = (): "light" | "dark" => {
   return "dark";
 };
 
+const safeStorage = {
+  getItem(key: string) {
+    try {
+      return typeof window !== "undefined" ? window.localStorage.getItem(key) : null;
+    } catch {
+      return null;
+    }
+  },
+  setItem(key: string, value: string) {
+    try {
+      if (typeof window !== "undefined") window.localStorage.setItem(key, value);
+    } catch {
+      // ignore
+    }
+  },
+};
+
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
-    const saved = localStorage.getItem("aurine-theme");
+    const saved = safeStorage.getItem("aurine-theme");
     return (saved as Theme) || "system";
   });
-  
+
   const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">(() => {
-    const saved = localStorage.getItem("aurine-theme") as Theme;
+    const saved = safeStorage.getItem("aurine-theme") as Theme | null;
     if (saved === "system" || !saved) {
       return getSystemTheme();
     }
@@ -33,19 +50,22 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
-    localStorage.setItem("aurine-theme", theme);
-    
+    safeStorage.setItem("aurine-theme", theme);
+
     const updateResolvedTheme = () => {
       const resolved = theme === "system" ? getSystemTheme() : theme;
       setResolvedTheme(resolved);
-      document.documentElement.classList.remove("light", "dark");
-      document.documentElement.classList.add(resolved);
+
+      if (typeof document !== "undefined") {
+        document.documentElement.classList.remove("light", "dark");
+        document.documentElement.classList.add(resolved);
+      }
     };
-    
+
     updateResolvedTheme();
-    
+
     // Listen for system theme changes
-    if (theme === "system") {
+    if (theme === "system" && typeof window !== "undefined" && window.matchMedia) {
       const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
       const handler = () => updateResolvedTheme();
       mediaQuery.addEventListener("change", handler);
