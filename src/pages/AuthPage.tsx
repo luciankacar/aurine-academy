@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import logo from '@/assets/logo.png';
+// Logo placeholder - original file was missing
 import { z } from 'zod';
 
 const emailSchema = z.string().email('Podaj poprawny adres email');
@@ -127,7 +127,7 @@ const AuthPage = () => {
         {/* Header */}
         <div className="p-6 pb-4 text-center">
           <div className="flex justify-center mb-4">
-            <img src={logo} alt="Aurine Academy" className="h-12 w-auto" />
+            <span className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">Aurine Academy</span>
           </div>
           <h1 className={`text-xl font-bold ${textPrimary}`}>
             {isLogin ? 'Witaj ponownie!' : 'Dołącz do Aurine Academy'}
