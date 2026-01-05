@@ -2,15 +2,16 @@ import { useState } from "react";
 import { ChevronDown, Send, PhoneCall } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
-import { Button } from "@/components/ui/button";
 
 const WsparcieTab = () => {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
+  // Theme-aware styles
   const textPrimary = isDark ? "text-white" : "text-gray-900";
   const textSecondary = isDark ? "text-neutral-400" : "text-gray-500";
+  const textMuted = isDark ? "text-neutral-500" : "text-gray-400";
   const cardBg = isDark ? "bg-neutral-900" : "bg-white";
   const cardBorder = isDark ? "border-pink-500/20" : "border-gray-100";
   const faqBg = isDark ? "bg-neutral-800/50" : "bg-gray-100";
@@ -30,58 +31,41 @@ const WsparcieTab = () => {
     },
     {
       question: "Jak długo mam dostęp do kursów?",
-      answer: "Dostęp do kursów jest aktywny przez cały okres trwania Twojej umowy z Aurine. Po zakończeniu współpracy materiały pozostają dostępne przez 30 dni."
+      answer: "Dostęp do wszystkich materiałów i kursów jest aktywny przez cały okres współpracy z agencją Aurine. Po zakończeniu współpracy materiały pozostają dostępne przez 30 dni."
     },
     {
-      question: "Jak skontaktować się z pomocą techniczną?",
-      answer: "Możesz napisać do nas przez formularz poniżej lub zadzwonić pod numer +48 123 456 789. Odpowiadamy w ciągu 24 godzin w dni robocze."
-    }
+      question: "Gdzie znajdę szablony do postów?",
+      answer: "Wszystkie szablony znajdują się w zakładce Szablony w dolnym menu. Możesz je przeglądać, kopiować i dostosowywać do swoich potrzeb."
+    },
   ];
 
   return (
-    <div className="px-3 py-4 space-y-4">
-      {/* Header */}
-      <div>
-        <h1 className={`text-lg font-bold ${textPrimary}`}>Wsparcie</h1>
-        <p className={`text-xs ${textSecondary}`}>Potrzebujesz pomocy? Jesteśmy tutaj!</p>
-      </div>
-
-      {/* Contact Card */}
-      <div className={`${cardBg} rounded-xl border ${cardBorder} p-4 shadow-md`}>
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 flex items-center justify-center">
-            <span className="text-lg font-bold text-white">A</span>
-          </div>
-          <div className="flex-1">
-            <h3 className={`text-sm font-semibold ${textPrimary}`}>Anna Kowalska</h3>
-            <p className={`text-xs ${textSecondary}`}>Twój opiekun</p>
-          </div>
-          <Button size="sm" className="bg-primary hover:bg-primary/90">
-            <PhoneCall className="w-4 h-4 mr-1" />
-            Zadzwoń
-          </Button>
-        </div>
+    <div className="px-4 py-6 pb-8">
+      {/* Hero */}
+      <div className="text-center mb-10">
+        <h1 className={`text-2xl font-bold ${textPrimary} mb-3`}>Jak możemy Ci pomóc?</h1>
+        <p className={`${textSecondary} text-sm leading-relaxed max-w-[280px] mx-auto`}>
+          Znajdź odpowiedzi na najczęstsze pytania lub skontaktuj się z opiekunem Twojego konta
+        </p>
       </div>
 
       {/* FAQ */}
-      <div className={`${cardBg} rounded-xl border ${cardBorder} overflow-hidden shadow-md`}>
-        <div className="p-3 border-b border-border">
-          <h2 className={`text-xs font-semibold ${textPrimary}`}>Często zadawane pytania</h2>
-        </div>
-        <div className="divide-y divide-border">
+      <div className="mb-10">
+        <p className={`text-xs font-semibold ${isDark ? 'text-pink-400' : 'text-pink-500'} uppercase tracking-wider mb-4`}>FAQ</p>
+        
+        <div className={`space-y-px ${faqBg} rounded-2xl overflow-hidden`}>
           {faqs.map((faq, index) => (
-            <div key={index}>
+            <div key={index} className={cardBg}>
               <button
                 onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                className="flex items-center justify-between w-full p-3 text-left hover:bg-accent/50 transition-colors"
+                className={`w-full flex items-start justify-between p-4 text-left ${isDark ? 'hover:bg-neutral-800/50' : 'hover:bg-gray-50'} transition-colors`}
               >
-                <span className={`text-xs font-medium ${textPrimary} pr-4`}>{faq.question}</span>
-                <motion.div
-                  animate={{ rotate: openFaq === index ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <ChevronDown className={`w-4 h-4 ${textSecondary} shrink-0`} />
-                </motion.div>
+                <span className={`text-[13px] font-medium ${textPrimary} pr-6 leading-snug`}>{faq.question}</span>
+                <ChevronDown 
+                  className={`w-4 h-4 shrink-0 mt-0.5 transition-transform duration-200 ${
+                    openFaq === index ? `rotate-180 ${isDark ? 'text-pink-400' : 'text-pink-500'}` : textMuted
+                  }`} 
+                />
               </button>
               <AnimatePresence>
                 {openFaq === index && (
@@ -92,11 +76,7 @@ const WsparcieTab = () => {
                     transition={{ duration: 0.2 }}
                     className="overflow-hidden"
                   >
-                    <div className={`px-3 pb-3`}>
-                      <p className={`text-xs ${textSecondary} ${faqBg} rounded-lg p-3`}>
-                        {faq.answer}
-                      </p>
-                    </div>
+                    <p className={`px-4 pb-4 text-[13px] ${textSecondary} leading-relaxed`}>{faq.answer}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -105,33 +85,28 @@ const WsparcieTab = () => {
         </div>
       </div>
 
-      {/* Contact Form */}
-      <div className={`${cardBg} rounded-xl border ${cardBorder} p-4 shadow-md`}>
-        <h2 className={`text-xs font-semibold ${textPrimary} mb-3`}>Napisz do nas</h2>
-        <div className="space-y-3">
-          <div>
-            <label className={`text-[10px] ${textSecondary} mb-1 block`}>Temat</label>
-            <select className={`w-full px-3 py-2 rounded-lg text-xs ${isDark ? 'bg-neutral-800 text-white' : 'bg-gray-100 text-gray-900'} border-0 focus:outline-none focus:ring-2 focus:ring-primary/50`}>
-              <option>Pytanie ogólne</option>
-              <option>Problem techniczny</option>
-              <option>Rozliczenia</option>
-              <option>Sugestia</option>
-            </select>
-          </div>
-          <div>
-            <label className={`text-[10px] ${textSecondary} mb-1 block`}>Wiadomość</label>
-            <textarea
-              rows={4}
-              placeholder="Opisz swój problem lub pytanie..."
-              className={`w-full px-3 py-2 rounded-lg text-xs ${isDark ? 'bg-neutral-800 text-white placeholder:text-neutral-500' : 'bg-gray-100 text-gray-900 placeholder:text-gray-400'} border-0 focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none`}
-            />
-          </div>
-          <Button className="w-full bg-primary hover:bg-primary/90">
-            <Send className="w-4 h-4 mr-2" />
-            Wyślij wiadomość
-          </Button>
+      {/* Contact */}
+      <div className="text-center mb-6">
+        <p className={`text-xs font-semibold ${isDark ? 'text-pink-400' : 'text-pink-500'} uppercase tracking-wider mb-2`}>Kontakt z opiekunem</p>
+        <p className={`${textSecondary} text-sm mb-6`}>
+          Nie znalazłeś odpowiedzi? Twój opiekun jest do Twojej dyspozycji.
+        </p>
+        
+        <div className="flex gap-3">
+          <button className={`flex-1 flex items-center justify-center gap-2 py-3.5 ${isDark ? 'bg-pink-500 hover:bg-pink-600' : 'bg-gray-900 hover:bg-gray-800'} text-white rounded-xl transition-colors`}>
+            <Send className="w-4 h-4" />
+            <span className="text-sm font-medium">Wyślij wiadomość</span>
+          </button>
+          <button className={`w-14 h-12 flex items-center justify-center ${isDark ? 'bg-neutral-800 hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'} rounded-xl transition-colors`}>
+            <PhoneCall className={`w-5 h-5 ${isDark ? 'text-neutral-300' : 'text-gray-700'}`} />
+          </button>
         </div>
       </div>
+
+      {/* Hours - subtle */}
+      <p className={`text-[11px] ${textMuted} text-center`}>
+        Dostępność: pon-pt 9:00-17:00
+      </p>
     </div>
   );
 };

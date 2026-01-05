@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { Facebook, Instagram, Search, Copy, Check } from "lucide-react";
-import { useTheme } from "@/contexts/ThemeContext";
+import { Facebook, Instagram, Layers, Search } from "lucide-react";
+import TemplateDetailModal from "@/components/modals/TemplateDetailModal";
 
 interface Template {
   id: number;
@@ -41,7 +41,7 @@ const templates: Template[] = [
     platforms: ["instagram", "facebook"],
     description: "Pokaż efekty swojej pracy",
     caption:
-      "Przed ➡️ Po 💫\n\nKolejnja piękna metamorfoza w naszym salonie! Co sądzicie o efekcie? 😍\n\nZabiegi:\n• [NAZWA ZABIEGU]\n• [NAZWA ZABIEGU]\n\n💝 Dziękujemy za zaufanie!",
+      "Przed ➡️ Po 💫\n\nKolejjna piękna metamorfoza w naszym salonie! Co sądzicie o efekcie? 😍\n\nZabiegi:\n• [NAZWA ZABIEGU]\n• [NAZWA ZABIEGU]\n\n💝 Dziękujemy za zaufanie!",
     hashtags: [
       "#metamorfoza",
       "#beforeafter",
@@ -51,249 +51,244 @@ const templates: Template[] = [
       "#transformation",
     ],
     imageUrl:
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=800&fit=crop",
   },
   {
     id: 3,
-    title: "Inspiracja Dnia",
-    category: "Inspiracja",
+    title: "Relaks w Salonie",
+    category: "Atmosfera",
     platforms: ["instagram"],
-    description: "Podziel się motywacją ze swoimi obserwatorami",
+    description: "Pokaż atmosferę Twojego salonu",
     caption:
-      "💕 Dbaj o siebie każdego dnia 💕\n\nPamiętaj, że zasługujesz na chwilę relaksu. Zadbaj o siebie - umów się na wizytę i poczuj się wyjątkowo!\n\n✨ [NAZWA_SALONU]",
-    hashtags: [
-      "#motywacja",
-      "#inspiracja",
-      "#selfcare",
-      "#beauty",
-      "#relaks",
-      "#pielęgnacja",
-    ],
+      "Twój moment relaksu 🧘‍♀️✨\n\nW naszym salonie znajdziesz chwilę wytchnienia od codzienności. Przyjdź, zrelaksuj się i wyjdź odmieniona! 💆‍♀️\n\n🕐 Rezerwacje: link w bio",
+    hashtags: ["#relaks", "#salon", "#beauty", "#odpoczynek", "#wellness", "#spa"],
     imageUrl:
-      "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&h=800&fit=crop",
   },
   {
     id: 4,
-    title: "Nowość w Ofercie",
+    title: "Nowa Usługa",
     category: "Nowości",
     platforms: ["instagram", "facebook"],
-    description: "Ogłoś nową usługę lub produkt",
+    description: "Ogłoś nową usługę w ofercie",
     caption:
-      "🆕 NOWOŚĆ W OFERCIE! 🆕\n\nZ radością przedstawiamy [NAZWA USŁUGI/PRODUKTU]!\n\n✅ Korzyść 1\n✅ Korzyść 2\n✅ Korzyść 3\n\n🗓️ Umów się już dziś i przetestuj jako pierwsza!\n\n📞 Kontakt w bio",
+      "🆕 NOWOŚĆ w ofercie! 🆕\n\nZ przyjemnością przedstawiamy nasz najnowszy zabieg: [NAZWA ZABIEGU]!\n\n✅ [KORZYŚĆ 1]\n✅ [KORZYŚĆ 2]\n✅ [KORZYŚĆ 3]\n\n🎉 Promocja na start: -20%\n\n📞 Rezerwacje już otwarte!",
     hashtags: [
       "#nowość",
-      "#new",
-      "#beauty",
+      "#nowaoferta",
+      "#zabieg",
       "#salon",
-      "#oferta",
-      "#zapraszamy",
+      "#beauty",
+      "#promocja",
     ],
     imageUrl:
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&h=800&fit=crop",
   },
   {
     id: 5,
-    title: "Kulisy Pracy",
-    category: "Kulisy",
-    platforms: ["instagram"],
-    description: "Pokaż swoją codzienność w salonie",
+    title: "Życzenia Świąteczne",
+    category: "Okolicznościowe",
+    platforms: ["instagram", "facebook"],
+    description: "Złóż życzenia klientkom",
     caption:
-      "Za kulisami ✨\n\nTak wygląda nasz dzień w salonie! Każda klientka to dla nas priorytet 💖\n\nZapraszamy do odwiedzin i przekonaj się sama o jakości naszych usług!\n\n📍 [ADRES]",
-    hashtags: [
-      "#zakulisami",
-      "#behindthescenes",
-      "#salon",
-      "#beauty",
-      "#praca",
-      "#pasja",
-    ],
+      "🎄 Wesołych Świąt! 🎄\n\nŻyczymy Wam magicznych chwil w gronie najbliższych, dużo zdrowia i pięknych chwil! ✨\n\n💝 Dziękujemy za wspólny rok!\n\n[NAZWA_SALONU]",
+    hashtags: ["#święta", "#życzenia", "#wesołychświąt", "#salon", "#beauty"],
     imageUrl:
-      "https://images.unsplash.com/photo-1633681122154-1159e48f5d99?w=800&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1482517967863-00e15c9b44be?w=800&h=800&fit=crop",
   },
   {
     id: 6,
-    title: "Opinia Klientki",
+    title: "Testimonial Klientki",
     category: "Opinie",
     platforms: ["instagram", "facebook"],
-    description: "Pochwal się pozytywną opinią",
+    description: "Podziel się opinią zadowolonej klientki",
     caption:
-      "💬 Opinia od [IMIĘ KLIENTKI]:\n\n\"[TREŚĆ OPINII]\"\n\n⭐⭐⭐⭐⭐\n\nDziękujemy za zaufanie! Takie słowa to nasza największa motywacja 💖\n\n#opinie #zadowolonaklientka",
+      "💬 Co mówią nasze klientki:\n\n\"[CYTAT OPINII]\"\n\n⭐⭐⭐⭐⭐\n\nDziękujemy za tak piękne słowa! To dla nas największa motywacja 💕\n\n#opinia #klientka",
     hashtags: [
-      "#opinie",
-      "#reviews",
+      "#opinia",
+      "#testimonial",
       "#zadowolonaklientka",
-      "#beauty",
       "#salon",
-      "#polecam",
+      "#beauty",
+      "#recenzja",
     ],
     imageUrl:
-      "https://images.unsplash.com/photo-1607779097040-26e80aa78e66?w=800&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800&h=800&fit=crop",
+  },
+  {
+    id: 7,
+    title: "Testimonial Klientki",
+    category: "Opinie",
+    platforms: ["instagram", "facebook"],
+    description: "Podziel się opinią zadowolonej klientki",
+    caption:
+      "💬 Co mówią nasze klientki:\n\n\"[CYTAT OPINII]\"\n\n⭐⭐⭐⭐⭐\n\nDziękujemy za tak piękne słowa! To dla nas największa motywacja 💕\n\n#opinia #klientka",
+    hashtags: [
+      "#opinia",
+      "#testimonial",
+      "#zadowolonaklientka",
+      "#salon",
+      "#beauty",
+      "#recenzja",
+    ],
+    imageUrl:
+      "https://images.unsplash.com/photo-1487412947147-5cebf96a4281?w=800&h=800&fit=crop",
   },
 ];
 
-const categories = ["Wszystkie", "Promocja", "Portfolio", "Inspiracja", "Nowości", "Kulisy", "Opinie"];
+const categories = [
+  "Wszystko",
+  "Promocja",
+  "Portfolio",
+  "Atmosfera",
+  "Nowości",
+  "Okolicznościowe",
+  "Opinie",
+];
 
 const SzablonyTab = () => {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
-  const [selectedCategory, setSelectedCategory] = useState("Wszystkie");
   const [searchQuery, setSearchQuery] = useState("");
-  const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState("Wszystko");
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
 
   const filteredTemplates = useMemo(() => {
     return templates.filter((template) => {
-      const matchesCategory = selectedCategory === "Wszystkie" || template.category === selectedCategory;
-      const matchesSearch = template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      const matchesSearch =
+        template.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         template.description.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
+      const matchesCategory =
+        selectedCategory === "Wszystko" || template.category === selectedCategory;
+      return matchesSearch && matchesCategory;
     });
-  }, [selectedCategory, searchQuery]);
-
-  const handleCopyCaption = (template: Template) => {
-    const fullCaption = `${template.caption}\n\n${template.hashtags.join(" ")}`;
-    navigator.clipboard.writeText(fullCaption);
-    setCopiedId(template.id);
-    setTimeout(() => setCopiedId(null), 2000);
-  };
-
-  const textPrimary = isDark ? "text-white" : "text-gray-900";
-  const textSecondary = isDark ? "text-neutral-400" : "text-gray-500";
-  const cardBg = isDark ? "bg-neutral-900" : "bg-white";
-  const cardBorder = isDark ? "border-pink-500/20" : "border-gray-100";
+  }, [searchQuery, selectedCategory]);
 
   return (
-    <div className="px-3 py-4 space-y-4">
+    <main className="min-h-screen pb-8">
       {/* Header */}
-      <div>
-        <h1 className={`text-lg font-bold ${textPrimary}`}>Szablony Treści</h1>
-        <p className={`text-xs ${textSecondary}`}>Gotowe szablony postów na social media</p>
-      </div>
+      <header className="px-2 pt-6 pb-4">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="h-11 w-11 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/25">
+            <Layers className="h-5 w-5 text-primary-foreground" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-foreground tracking-tight">
+              Szablony postów
+            </h1>
+            <p className="text-xs text-muted-foreground">
+              Gotowe grafiki do Twoich social media
+            </p>
+          </div>
+        </div>
 
-      {/* Search */}
-      <div className={`relative ${cardBg} rounded-xl border ${cardBorder}`}>
-        <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${textSecondary}`} />
-        <input
-          type="text"
-          placeholder="Szukaj szablonów..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className={`w-full pl-10 pr-4 py-2.5 rounded-xl bg-transparent text-sm ${textPrimary} placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50`}
-        />
-      </div>
+        {/* Search */}
+        <div className="relative">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+          <input
+            type="text"
+            placeholder="Szukaj szablonów..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full h-12 rounded-2xl border border-border bg-card pl-11 pr-4 text-sm font-medium text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
+          />
+        </div>
+      </header>
 
       {/* Categories */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
-        {categories.map((category) => (
-          <button
-            key={category}
-            onClick={() => setSelectedCategory(category)}
-            className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
-              selectedCategory === category
-                ? "bg-primary text-primary-foreground"
-                : isDark
-                ? "bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-            }`}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
+      <section className="pb-5" aria-label="Kategorie szablonów">
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide px-2">
+          {categories.map((cat) => {
+            const active = selectedCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`shrink-0 px-3 py-2 rounded-full text-[11px] font-semibold transition-all ${
+                  active
+                    ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                    : "bg-card text-muted-foreground border border-border hover:bg-accent hover:text-foreground"
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        </div>
+      </section>
 
-      {/* Templates Grid */}
-      <div className="space-y-3">
-        {filteredTemplates.map((template) => (
-          <div
-            key={template.id}
-            className={`${cardBg} rounded-xl border ${cardBorder} overflow-hidden shadow-md`}
-          >
-            {/* Image */}
-            <div className="relative aspect-square">
+      {/* Grid - równa siatka 2x */}
+      <section className="px-4" aria-label="Szablony postów">
+        <div className="grid grid-cols-2 gap-3">
+          {filteredTemplates.map((template) => (
+            <button
+              key={template.id}
+              onClick={() => setSelectedTemplate(template)}
+              className="group relative aspect-square rounded-3xl overflow-hidden bg-card shadow-md active:scale-[0.97] transition-transform"
+            >
+              {/* Image */}
               <img
                 src={template.imageUrl}
                 alt={template.title}
-                className="w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
-              <div className="absolute top-2 right-2 flex gap-1">
-                {template.platforms.includes("instagram") && (
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center">
-                    <Instagram className="w-3.5 h-3.5 text-white" />
-                  </div>
-                )}
-                {template.platforms.includes("facebook") && (
-                  <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
-                    <Facebook className="w-3.5 h-3.5 text-white" />
-                  </div>
-                )}
-              </div>
-              <div className="absolute bottom-2 left-2">
-                <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${isDark ? 'bg-neutral-900/80' : 'bg-white/80'} ${textPrimary}`}>
+
+              {/* Dark gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+
+              {/* Top badges */}
+              <div className="absolute top-3 left-3 right-3 flex items-start justify-between">
+                <span className="px-2.5 py-1 rounded-lg bg-white/20 text-[10px] font-bold text-white uppercase tracking-wider">
                   {template.category}
                 </span>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="p-3 space-y-2">
-              <h3 className={`font-semibold text-sm ${textPrimary}`}>{template.title}</h3>
-              <p className={`text-xs ${textSecondary}`}>{template.description}</p>
-
-              {/* Caption Preview */}
-              <div className={`p-2 rounded-lg text-xs ${isDark ? 'bg-neutral-800' : 'bg-gray-50'} ${textSecondary} line-clamp-3 whitespace-pre-line`}>
-                {template.caption}
-              </div>
-
-              {/* Hashtags */}
-              <div className="flex flex-wrap gap-1">
-                {template.hashtags.slice(0, 4).map((tag) => (
-                  <span
-                    key={tag}
-                    className={`text-[10px] ${isDark ? 'text-pink-400' : 'text-pink-600'}`}
-                  >
-                    {tag}
-                  </span>
-                ))}
-                {template.hashtags.length > 4 && (
-                  <span className={`text-[10px] ${textSecondary}`}>
-                    +{template.hashtags.length - 4}
-                  </span>
-                )}
+                <div className="flex gap-1">
+                  {template.platforms.includes("instagram") && (
+                    <span className="h-7 w-7 rounded-lg bg-white/20 flex items-center justify-center">
+                      <Instagram className="h-3.5 w-3.5 text-white" />
+                    </span>
+                  )}
+                  {template.platforms.includes("facebook") && (
+                    <span className="h-7 w-7 rounded-lg bg-white/20 flex items-center justify-center">
+                      <Facebook className="h-3.5 w-3.5 text-white" />
+                    </span>
+                  )}
+                </div>
               </div>
 
-              {/* Copy Button */}
-              <button
-                onClick={() => handleCopyCaption(template)}
-                className={`w-full py-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-colors ${
-                  copiedId === template.id
-                    ? "bg-emerald-500 text-white"
-                    : isDark
-                    ? "bg-pink-500/20 text-pink-400 hover:bg-pink-500/30"
-                    : "bg-pink-100 text-pink-600 hover:bg-pink-200"
-                }`}
-              >
-                {copiedId === template.id ? (
-                  <>
-                    <Check className="w-3.5 h-3.5" />
-                    Skopiowano!
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5" />
-                    Kopiuj tekst
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+              {/* Bottom content */}
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <h3 className="text-sm font-bold text-white leading-snug line-clamp-2 mb-1">
+                  {template.title}
+                </h3>
+                <p className="text-[11px] text-white/70 line-clamp-1">
+                  {template.description}
+                </p>
+              </div>
 
-      {filteredTemplates.length === 0 && (
-        <div className={`text-center py-8 ${textSecondary}`}>
-          <p className="text-sm">Nie znaleziono szablonów</p>
+              {/* Hover/focus ring */}
+              <div className="absolute inset-0 rounded-3xl ring-2 ring-inset ring-white/10 group-hover:ring-white/20 transition-all" />
+            </button>
+          ))}
         </div>
+
+        {filteredTemplates.length === 0 && (
+          <div className="text-center py-20 text-muted-foreground">
+            <Layers className="h-10 w-10 mx-auto mb-3 opacity-30" />
+            <p className="text-sm font-medium">Brak szablonów</p>
+            <p className="text-xs mt-1">Spróbuj zmienić kryteria wyszukiwania</p>
+          </div>
+        )}
+      </section>
+
+      {/* Modal */}
+      {selectedTemplate && (
+        <TemplateDetailModal
+          template={selectedTemplate}
+          isOpen={!!selectedTemplate}
+          onClose={() => setSelectedTemplate(null)}
+        />
       )}
-    </div>
+    </main>
   );
 };
 
