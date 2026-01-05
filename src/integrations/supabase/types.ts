@@ -14,7 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      lesson_progress: {
+        Row: {
+          completed_at: string
+          course_id: string
+          created_at: string
+          id: string
+          lesson_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string
+          course_id: string
+          created_at?: string
+          id?: string
+          lesson_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string
+          course_id?: string
+          created_at?: string
+          id?: string
+          lesson_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          address: string | null
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          phone: string | null
+          salon_name: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          phone?: string | null
+          salon_name?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          phone?: string | null
+          salon_name?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
