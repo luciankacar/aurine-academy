@@ -203,10 +203,7 @@ const MainApp = () => {
         {/* Header */}
         <header className={`sticky top-0 z-50 border-b pt-[env(safe-area-inset-top)] ${isDark ? 'bg-neutral-950/85 border-pink-500/20' : 'bg-pink-50/90 border-pink-100'}`}>
           <div className="flex items-center justify-between px-4 py-2">
-            <div className="flex items-center gap-2">
-              <img src={logoImg} alt="Aurine Academy" className="w-7 h-7" />
-              <span className="text-lg font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">Aurine Academy</span>
-            </div>
+            <img src={logoImg} alt="Aurine Academy" className="w-8 h-8" />
             <div className="flex items-center gap-2">
               <button 
                 onClick={() => handleTabChange("wsparcie")}
