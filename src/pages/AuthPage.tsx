@@ -126,9 +126,8 @@ const AuthPage = () => {
       >
         {/* Header */}
         <div className="p-6 pb-4 text-center">
-          <div className="flex justify-center items-center gap-2 mb-4">
-            <img src={logoImg} alt="Aurine Academy" className="w-10 h-10" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">Aurine Academy</span>
+          <div className="flex justify-center mb-4">
+            <img src={logoImg} alt="Aurine Academy" className="w-16 h-16" />
           </div>
           <h1 className={`text-xl font-bold ${textPrimary}`}>
             {isLogin ? 'Witaj ponownie!' : 'Dołącz do Aurine Academy'}
