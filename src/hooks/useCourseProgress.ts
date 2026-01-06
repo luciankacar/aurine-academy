@@ -62,19 +62,33 @@ export const useCourseProgress = () => {
 
   // Mark lesson as completed
   const completeLesson = async (courseId: string, lessonId: string) => {
-    if (!user) return { error: new Error('Not authenticated') };
+    if (!user) {
+      console.error('Cannot complete lesson: Not authenticated');
+      return { error: new Error('Not authenticated') };
+    }
 
-    const { error } = await supabase
+    console.log('Completing lesson:', { userId: user.id, courseId, lessonId });
+
+    // First check if already completed
+    const existing = progress.find(p => p.course_id === courseId && p.lesson_id === lessonId);
+    if (existing) {
+      console.log('Lesson already completed');
+      return { error: null };
+    }
+
+    const { data, error } = await supabase
       .from('lesson_progress')
-      .upsert({
+      .insert({
         user_id: user.id,
         course_id: courseId,
         lesson_id: lessonId,
-      }, {
-        onConflict: 'user_id,course_id,lesson_id',
-      });
+      })
+      .select();
 
-    if (!error) {
+    if (error) {
+      console.error('Error completing lesson:', error);
+    } else {
+      console.log('Lesson completed successfully:', data);
       await fetchProgress();
     }
 
