@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { BookOpen, Clock, ChevronRight, ChevronDown, ChevronUp, Play, Sparkles, ArrowRight, Star, Layers, CheckCircle2, GraduationCap } from "lucide-react";
+import { BookOpen, Clock, ChevronRight, ChevronDown, ChevronUp, Play, Sparkles, ArrowRight, Star, Layers, CheckCircle2, GraduationCap, Users, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import { courses } from "@/data/courses";
@@ -10,6 +10,7 @@ import IntroLessonView from "@/components/courses/IntroLessonView";
 import CourseTransitionScreen from "@/components/courses/CourseTransitionScreen";
 import { useCourseProgress } from "@/hooks/useCourseProgress";
 import { getCourseColorScheme, getCourseIcon } from "@/lib/courseColors";
+import MaterialyTab from "./MaterialyTab";
 
 const pageTransition = {
   initial: { opacity: 0 },
@@ -36,6 +37,7 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
   const [introLessonIndex, setIntroLessonIndex] = useState<number | null>(null);
   const [isRoadmapExpanded, setIsRoadmapExpanded] = useState(false);
   const [courseTransition, setCourseTransition] = useState<{ from: Course; to: Course } | null>(null);
+  const [showMaterialy, setShowMaterialy] = useState(false);
   
   // Store the calculated course index to prevent flicker
   const [currentCourseIndex, setCurrentCourseIndex] = useState(() => {
@@ -167,6 +169,7 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
 
   // Determine current view key for animation
   const getViewKey = () => {
+    if (showMaterialy) return "materialy";
     if (courseTransition) return "transition";
     if (introLessonIndex !== null) return `intro-${introLessonIndex}`;
     if (selectedLesson) return `lesson-${selectedLesson.id}`;
@@ -176,6 +179,23 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
 
   // Render content based on current state
   const renderContent = () => {
+    // Show materialy view
+    if (showMaterialy) {
+      return (
+        <div>
+          <div className="sticky top-0 z-20 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-3">
+            <button
+              onClick={() => setShowMaterialy(false)}
+              className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Wróć do kursów
+            </button>
+          </div>
+          <MaterialyTab />
+        </div>
+      );
+    }
     // Show course transition screen
     if (courseTransition) {
       return (
@@ -312,9 +332,10 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
         </div>
       </div>
 
-      {/* Zacznij tutaj - Intro section */}
-      {introCourse && (
-        <div className="mb-5">
+      {/* Zacznij tutaj + Materiały section */}
+      <div className="mb-5 space-y-3">
+        {/* Zacznij tutaj */}
+        {introCourse && (
           <div 
             onClick={() => setSelectedCourse(introCourse)}
             className={`relative rounded-xl border overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md ${
@@ -347,8 +368,29 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
               <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
             </div>
           </div>
+        )}
+
+        {/* Materiały dla pracowników */}
+        <div 
+          onClick={() => setShowMaterialy(true)}
+          className={`relative rounded-xl border overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md ${
+            isDark 
+              ? 'bg-gradient-to-br from-amber-950/50 via-card to-orange-950/30 border-amber-500/20 hover:border-amber-500/40' 
+              : 'bg-gradient-to-br from-amber-50 via-card to-orange-50 border-amber-200/50 hover:border-amber-300'
+          }`}
+        >
+          <div className="p-4 flex items-center gap-3">
+            <div className="h-10 w-10 rounded-lg flex items-center justify-center bg-gradient-to-br from-amber-500 to-orange-500">
+              <Users className="h-5 w-5 text-white" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm font-semibold text-foreground mb-0.5">Materiały dla pracowników</h3>
+              <p className="text-[11px] text-muted-foreground line-clamp-1">Gotowe skrypty rozmów z klientkami</p>
+            </div>
+            <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+          </div>
         </div>
-      )}
+      </div>
 
       {/* HERO: Twoja Ścieżka Nauki */}
       <div className="mb-7">
