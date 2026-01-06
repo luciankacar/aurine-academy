@@ -69,11 +69,12 @@ const MainApp = () => {
   const isDark = resolvedTheme === "dark";
   const fullBleed = activeTab === "szablony";
 
-  useEffect(() => {
-    if (!loading && !user) {
-      navigate('/auth');
-    }
-  }, [user, loading, navigate]);
+  // Authentication check disabled for development
+  // useEffect(() => {
+  //   if (!loading && !user) {
+  //     navigate('/auth');
+  //   }
+  // }, [user, loading, navigate]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -122,9 +123,10 @@ const MainApp = () => {
       </div>
     );
   }
-  if (!user) {
-    return null;
-  }
+  // Allow access without authentication for development
+  // if (!user) {
+  //   return null;
+  // }
 
   const tabs = [
     { id: "start", icon: Home, label: "Start" },
