@@ -2,8 +2,13 @@ import { useState, useEffect } from "react";
 import { 
   Sparkles, ArrowRight, Calendar, Check,
   Instagram, Facebook, Video, Image, Lightbulb,
-  Loader2, RefreshCw, ChevronDown, ChevronUp, Info, Target, Users, Heart
+  Loader2, RefreshCw, ChevronDown, ChevronUp, Info, Target, Users, Heart, HelpCircle
 } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -400,8 +405,19 @@ const GeneratorStrategiiTab = ({ onAddToCalendar }: GeneratorStrategiiTabProps) 
         <div className="space-y-4">
           {/* Typ salonu */}
           <div>
-            <label className="text-xs font-medium text-foreground mb-2 block">
+            <label className="text-xs font-medium text-foreground mb-2 flex items-center gap-1.5">
               Typ salonu <span className="text-primary">*</span>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button type="button" className="text-muted-foreground hover:text-primary transition-colors">
+                    <HelpCircle className="w-3.5 h-3.5" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent side="top" className="w-64 text-xs bg-popover border-border z-50">
+                  <p className="font-medium mb-1">Wybierz rodzaj swojego salonu</p>
+                  <p className="text-muted-foreground">To pomoże AI dostosować strategię do specyfiki Twojej branży — inaczej wyglądają treści dla fryzjera, a inaczej dla kosmetyczki.</p>
+                </PopoverContent>
+              </Popover>
             </label>
             <select
               value={salonType}
@@ -417,8 +433,19 @@ const GeneratorStrategiiTab = ({ onAddToCalendar }: GeneratorStrategiiTabProps) 
 
           {/* Twoje klientki */}
           <div>
-            <label className="text-xs font-medium text-foreground mb-2 block">
+            <label className="text-xs font-medium text-foreground mb-2 flex items-center gap-1.5">
               Twoje klientki
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button type="button" className="text-muted-foreground hover:text-primary transition-colors">
+                    <HelpCircle className="w-3.5 h-3.5" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent side="top" className="w-64 text-xs bg-popover border-border z-50">
+                  <p className="font-medium mb-1">Opisz swoją grupę docelową</p>
+                  <p className="text-muted-foreground">Wiek, styl życia, zainteresowania. Np. "kobiety 30-50, zapracowane mamy" lub "młode dziewczyny dbające o paznokcie". Im dokładniej opiszesz, tym lepiej dobrane będą treści.</p>
+                </PopoverContent>
+              </Popover>
             </label>
             <Input
               placeholder="np. kobiety 25-45 lat, pracujące..."
@@ -518,8 +545,19 @@ const GeneratorStrategiiTab = ({ onAddToCalendar }: GeneratorStrategiiTabProps) 
 
           {/* Dodatkowe info */}
           <div>
-            <label className="text-xs font-medium text-foreground mb-2 block">
+            <label className="text-xs font-medium text-foreground mb-2 flex items-center gap-1.5">
               Dodatkowe informacje
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button type="button" className="text-muted-foreground hover:text-primary transition-colors">
+                    <HelpCircle className="w-3.5 h-3.5" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent side="top" className="w-64 text-xs bg-popover border-border z-50">
+                  <p className="font-medium mb-1">Co jeszcze AI powinno wiedzieć?</p>
+                  <p className="text-muted-foreground">Wpisz swoją specjalizację, styl komunikacji, usługi premium, czy promocje które chcesz reklamować. Możesz też napisać jakiego tonu oczekujesz (formalny/luźny).</p>
+                </PopoverContent>
+              </Popover>
             </label>
             <Textarea
               placeholder="Specjalizacja, styl komunikacji, usługi specjalne..."
