@@ -34,10 +34,12 @@ Grafiki i zdjęcia to dwa różne narzędzia. Każde ma swoje zastosowanie – k
 
 ## Kiedy grafika jest lepsza?
 
-📋 **Przekazujesz informacje** – cennik, godziny, regulamin
-📢 **Ogłaszasz coś** – promocja, nowość, wydarzenie
-💡 **Edulujesz** – porady, wskazówki, instrukcje
-🚫 **Nie masz dobrego zdjęcia** – lepiej grafika niż słabe zdjęcie`
+📋 **Przekazujesz informacje** – cennik, godziny otwarcia, regulamin
+📢 **Ogłaszasz coś** – promocja, nowość w ofercie, wydarzenie
+💡 **Edukujesz** – porady pielęgnacyjne, wskazówki, instrukcje
+🚫 **Nie masz dobrego zdjęcia** – lepiej grafika niż słabe zdjęcie
+
+Grafiki są idealne do przekazywania konkretnych informacji w uporządkowany sposób. Klientka scrolluje, widzi cennik – od razu wie, o co chodzi.`
             },
             {
               id: "section-1-2",
@@ -45,23 +47,28 @@ Grafiki i zdjęcia to dwa różne narzędzia. Każde ma swoje zastosowanie – k
               content: `## A kiedy zdjęcie?
 
 Zdjęcie jest lepsze, gdy chcesz:
-- Pokazać efekty pracy (paznokcie, fryzury)
-- Budować relację (behind the scenes)
-- Wzbudzić emocje (atmosfera salonu)
+- Pokazać efekty pracy (paznokcie, fryzury, makijaż)
+- Budować relację (behind the scenes, Ty przy pracy)
+- Wzbudzić emocje (atmosfera salonu, detale)
 - Pokazać produkty w użyciu
 
-**Zasada:** Grafiki informują, zdjęcia budują emocje.`
-            },
-            {
-              id: "section-1-3",
-              type: "tip",
-              content: "Idealna proporcja na feedzie to około 70% zdjęć i 30% grafik. Zbyt wiele grafik sprawia, że profil wygląda 'sztucznie'."
+## Idealna proporcja na feedzie
+
+Dobra proporcja to około **70% zdjęć i 30% grafik**. Zbyt wiele grafik sprawia, że profil wygląda sztucznie i "marketingowo". Zbyt mało – brakuje ważnych informacji.
+
+Pamiętaj: grafiki informują, zdjęcia budują emocje i zaufanie.`
             }
           ],
           tasks: [],
           checklist: [
-            { id: "check-1-1", text: "Wiem, kiedy użyć grafiki zamiast zdjęcia" },
-            { id: "check-1-2", text: "Znam idealną proporcję grafik na feedzie" }
+            {
+              id: "check-1-1",
+              text: "Wiem, kiedy użyć grafiki zamiast zdjęcia"
+            },
+            {
+              id: "check-1-2",
+              text: "Znam idealną proporcję grafik na feedzie"
+            }
           ],
           keyTakeaways: [
             "Grafiki służą do informowania, zdjęcia do budowania emocji",
@@ -92,33 +99,34 @@ Gdy ktoś scrolluje feed, powinien rozpoznać Twoje posty od razu – bez patrze
 🎨 **Paleta kolorów** – 3-5 kolorów, które się powtarzają
 🔤 **Fonty** – 1-2 czcionki używane wszędzie
 📐 **Styl grafik** – podobny układ, elementy dekoracyjne
-📸 **Filtry** – ten sam filtr na wszystkich zdjęciach`
+📸 **Filtry** – ten sam filtr na wszystkich zdjęciach
+
+Spójność nie oznacza monotonii – chodzi o to, żeby wszystko do siebie pasowało i tworzyło jedną całość.`
             },
             {
               id: "section-2-2",
               type: "text",
               content: `## Spójny profil vs chaotyczny
 
-**Spójny profil:**
-- Rozpoznawalny na pierwszy rzut oka
-- Buduje profesjonalny wizerunek
-- Łatwiejszy do tworzenia (masz system)
+Spójny profil jest rozpoznawalny na pierwszy rzut oka. Buduje profesjonalny wizerunek i jest łatwiejszy do prowadzenia, bo masz system.
 
-**Chaotyczny profil:**
-- Każdy post wygląda inaczej
-- Wrażenie przypadkowości
-- Trudniej zapamiętać markę`
-            },
-            {
-              id: "section-2-3",
-              type: "tip",
-              content: "Nie musisz wymyślać wszystkiego od zera – użyj szablonów z Aurine i dostosuj je do swoich kolorów."
+Chaotyczny profil to taki, gdzie każdy post wygląda inaczej – inne kolory, fonty, style. Sprawia wrażenie przypadkowości i trudniej zapamiętać taką markę.
+
+## Jak zacząć?
+
+Nie musisz wymyślać wszystkiego od zera. Użyj szablonów z Aurine i dostosuj je do swoich kolorów. To najprostszy sposób na spójny profil bez godzin pracy.`
             }
           ],
           tasks: [],
           checklist: [
-            { id: "check-2-1", text: "Rozumiem znaczenie spójności wizualnej" },
-            { id: "check-2-2", text: "Wiem, jakie elementy budują spójność" }
+            {
+              id: "check-2-1",
+              text: "Rozumiem znaczenie spójności wizualnej"
+            },
+            {
+              id: "check-2-2",
+              text: "Wiem, jakie elementy budują spójność"
+            }
           ],
           keyTakeaways: [
             "Spójność wizualna buduje rozpoznawalność marki",
@@ -146,40 +154,43 @@ Każdy kolor wywołuje inne skojarzenia. Dobierz je świadomie do charakteru swo
 
 ## Popularne kolory w beauty
 
-💗 **Różowy/Pudrowy** – kobiecość, delikatność
-✨ **Złoty/Beżowy** – luksus, elegancja
-🖤 **Czarny** – nowoczesność, moda
-🤍 **Biały** – czystość, minimalizm
-💜 **Fioletowy** – kreatywność, nail art`
+💗 **Różowy/Pudrowy** – kobiecość, delikatność, romantyczność
+✨ **Złoty/Beżowy** – luksus, elegancja, premium
+🖤 **Czarny** – nowoczesność, moda, glamour
+🤍 **Biały** – czystość, minimalizm, świeżość
+💜 **Fioletowy** – kreatywność, artyzm, nail art
+
+Nie musisz wybierać jednego koloru – chodzi o stworzenie palety 3-5 kolorów, które do siebie pasują.`
             },
             {
               id: "section-3-2",
               type: "text",
               content: `## Jak dobrać paletę?
 
-**Zasada 60-30-10:**
-- **60%** – kolor dominujący (tła)
-- **30%** – kolor uzupełniający (akcenty)
-- **10%** – kolor wyróżnienia (CTA, ważne)
+Stosuj zasadę **60-30-10**:
+- **60%** – kolor dominujący (tła, duże powierzchnie)
+- **30%** – kolor uzupełniający (akcenty, ramki)
+- **10%** – kolor wyróżnienia (przyciski, ważne elementy)
 
 ## A fonty?
 
-Wybierz maksymalnie 2:
-- Jeden do nagłówków (może być ozdobny)
-- Jeden do tekstu (musi być czytelny)
+Wybierz maksymalnie 2 czcionki:
+- Jeden font do nagłówków (może być ozdobny)
+- Jeden font do tekstu (musi być czytelny)
 
-Fonty z Aurine są już dobrane do branży beauty.`
-            },
-            {
-              id: "section-3-3",
-              type: "tip",
-              content: "Jeśli nie wiesz jakie kolory wybrać, użyj kolorów ze swojego logo lub wystroju salonu – to najprostszy sposób na spójność."
+Jeśli nie wiesz jakie kolory wybrać, użyj kolorów ze swojego logo lub wystroju salonu – to najprostszy sposób na spójność.`
             }
           ],
           tasks: [],
           checklist: [
-            { id: "check-3-1", text: "Wiem, jakie kolory pasują do mojego salonu" },
-            { id: "check-3-2", text: "Rozumiem zasadę 60-30-10" }
+            {
+              id: "check-3-1",
+              text: "Wiem, jakie kolory pasują do mojego salonu"
+            },
+            {
+              id: "check-3-2",
+              text: "Rozumiem zasadę 60-30-10"
+            }
           ],
           keyTakeaways: [
             "Kolory wywołują emocje – dobieraj je świadomie",
@@ -205,38 +216,42 @@ Fonty z Aurine są już dobrane do branży beauty.`
 
 Zamiast tworzyć każdą grafikę od zera, modyfikujesz gotowy projekt. To oszczędność czasu i gwarancja spójności.
 
-## Dlaczego warto?
+## Dlaczego warto używać szablonów?
 
-⏱️ **Szybkość** – 5 minut zamiast 30
-🎨 **Spójność** – wszystko do siebie pasuje
+⏱️ **Szybkość** – 5 minut zamiast 30 na stworzenie grafiki
+🎨 **Spójność** – wszystkie grafiki do siebie pasują
 👍 **Prostota** – nie musisz być grafikiem
-👥 **Delegowanie** – każdy może tworzyć grafiki`
+👥 **Delegowanie** – każdy w salonie może tworzyć grafiki
+
+Szablony to nie oszustwo – to sprytne narzędzie, z którego korzystają profesjonaliści.`
             },
             {
               id: "section-4-2",
               type: "text",
               content: `## Generator grafik w Aurine
 
-W zakładce **Szablony** znajdziesz gotowe szablony do:
-- Cenników
-- Promocji i rabatów
-- Porad i wskazówek
-- Informacji (godziny, urlopy)
-- Ofert specjalnych
+W zakładce **Szablony** znajdziesz gotowe szablony do różnych celów:
+- Cenniki i oferty
+- Promocje i rabaty
+- Porady i wskazówki
+- Informacje (godziny, urlopy, zmiany)
+- Oferty specjalne i pakiety
 
-Wystarczy wybrać szablon, zmienić tekst i kolor – gotowe!`
-            },
-            {
-              id: "section-4-3",
-              type: "interactive",
-              content: "Przejdź do zakładki Szablony i sprawdź dostępne kategorie",
-              actionLabel: "Sprawdź szablony"
+Wystarczy wybrać szablon, zmienić tekst i dostosować kolor – gotowe! Możesz też dodać swoje logo, żeby każda grafika była "Twoja".
+
+Przejdź do zakładki Szablony i sprawdź dostępne kategorie – znajdziesz tam szablony dopasowane do branży beauty.`
             }
           ],
           tasks: [],
           checklist: [
-            { id: "check-4-1", text: "Wiem, gdzie znaleźć szablony w Aurine" },
-            { id: "check-4-2", text: "Rozumiem zalety pracy z szablonami" }
+            {
+              id: "check-4-1",
+              text: "Wiem, gdzie znaleźć szablony w Aurine"
+            },
+            {
+              id: "check-4-2",
+              text: "Rozumiem zalety pracy z szablonami"
+            }
           ],
           keyTakeaways: [
             "Szablony oszczędzają czas i zapewniają spójność",
@@ -260,39 +275,42 @@ Wystarczy wybrać szablon, zmienić tekst i kolor – gotowe!`
               type: "text",
               content: `# Błędy, których warto unikać ⚠️
 
-Nawet z szablonami można popełnić błędy. Oto najczęstsze:
+Nawet z szablonami można popełnić błędy. Oto najczęstsze problemy, które widzimy na profilach salonów:
 
 ## Za dużo tekstu
 
 Grafika na social media to nie ulotka. Ludzie scrollują szybko – masz 2-3 sekundy, żeby przyciągnąć uwagę.
 
-**Zasada:** Jeden post = jedna myśl. Resztę napisz w opisie.`
+Zasada jest prosta: jeden post = jedna myśl. Jeśli masz więcej do powiedzenia, napisz resztę w opisie pod postem. Grafika ma przyciągnąć uwagę, opis może być dłuższy.`
             },
             {
               id: "section-5-2",
               type: "text",
               content: `## Inne częste błędy
 
-❌ **Słaby kontrast** – tekst zlewa się z tłem
+❌ **Słaby kontrast** – tekst zlewa się z tłem i jest nieczytelny
 ❌ **Za małe fonty** – nieczytelne na telefonie
-❌ **Zbyt wiele kolorów** – chaos wizualny
-❌ **Różne style** – każdy post wygląda inaczej
-❌ **Słaba jakość zdjęć** – rozmazane, ciemne
+❌ **Zbyt wiele kolorów** – chaos wizualny, brak spójności
+❌ **Różne style** – każdy post wygląda zupełnie inaczej
+❌ **Słaba jakość zdjęć** – rozmazane, ciemne, pikselowane
 
-## Jak sprawdzić?
+## Jak sprawdzić przed publikacją?
 
-Przed publikacją sprawdź grafikę na telefonie – czy wszystko jest czytelne?`
-            },
-            {
-              id: "section-5-3",
-              type: "tip",
-              content: "Szablony z Aurine mają już odpowiedni kontrast i rozmiary fontów – wystarczy nie zmieniać ich drastycznie."
+Przed publikacją sprawdź grafikę na telefonie – czy wszystko jest czytelne? Czy tekst nie zlewa się z tłem? Czy da się przeczytać bez przybliżania?
+
+Szablony z Aurine mają już odpowiedni kontrast i rozmiary fontów – wystarczy nie zmieniać ich drastycznie.`
             }
           ],
           tasks: [],
           checklist: [
-            { id: "check-5-1", text: "Wiem, jakich błędów unikać" },
-            { id: "check-5-2", text: "Rozumiem zasadę 'jeden post = jedna myśl'" }
+            {
+              id: "check-5-1",
+              text: "Wiem, jakich błędów unikać"
+            },
+            {
+              id: "check-5-2",
+              text: "Rozumiem zasadę 'jeden post = jedna myśl'"
+            }
           ],
           keyTakeaways: [
             "Jeden post = jedna myśl, resztę napisz w opisie",
