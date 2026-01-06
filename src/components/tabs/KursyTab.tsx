@@ -8,8 +8,10 @@ import CourseDetailView from "@/components/courses/CourseDetailView";
 import LessonView from "@/components/courses/LessonView";
 import IntroLessonView from "@/components/courses/IntroLessonView";
 import CourseTransitionScreen from "@/components/courses/CourseTransitionScreen";
+import EmployeeMaterialsSection from "@/components/courses/EmployeeMaterialsSection";
 import { useCourseProgress } from "@/hooks/useCourseProgress";
 import { getCourseColorScheme, getCourseIcon } from "@/lib/courseColors";
+import { useIsOwner } from "@/hooks/useIsOwner";
 
 
 const pageTransition = {
@@ -30,6 +32,7 @@ interface KursyTabProps {
 const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  const { isOwner } = useIsOwner();
   const { progress, loading: progressLoading, completeLesson, getCourseProgress, getOverallProgress, isLessonCompleted, getCompletedLessonsCount } = useCourseProgress();
   
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -553,6 +556,8 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
         </div>
       </div>
 
+      {/* Materiały dla pracowników - tylko dla właścicielki */}
+      {isOwner && <EmployeeMaterialsSection />}
 
       {/* Polecane dla Ciebie - kursy dopasowane do postępu */}
       <div>
