@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
   Home, User, Bell,
-  FileText, MessageCircle, X, BookOpen, Gift, Calendar, GraduationCap, Loader2
+  FileText, MessageCircle, X, BookOpen, Gift, Calendar, GraduationCap, Loader2, FolderOpen
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logoImg from "@/assets/logo.png";
@@ -16,6 +16,7 @@ import SzablonyTab from "./tabs/SzablonyTab";
 import WsparcieTab from "./tabs/WsparcieTab";
 import ProfilTab from "./tabs/ProfilTab";
 import KursyTab from "./tabs/KursyTab";
+import MaterialyTab from "./tabs/MaterialyTab";
 
 const MainApp = () => {
   const { resolvedTheme } = useTheme();
@@ -132,6 +133,7 @@ const MainApp = () => {
     { id: "start", icon: Home, label: "Start" },
     { id: "szablony", icon: FileText, label: "Szablony" },
     { id: "kursy", icon: GraduationCap, label: "Kursy" },
+    { id: "materialy", icon: FolderOpen, label: "Materiały" },
     { id: "profil", icon: User, label: "Profil" },
   ];
 
@@ -159,7 +161,7 @@ const MainApp = () => {
   };
 
   // Tabs where swipe navigation should be disabled
-  const swipeDisabledTabs = ["szablony", "kursy", "wsparcie", "profil"];
+  const swipeDisabledTabs = ["szablony", "kursy", "wsparcie", "profil", "materialy"];
   const isSwipeEnabled = !swipeDisabledTabs.includes(activeTab) && !isInSubView;
 
   const handleSwipe = (swipeDirection: number) => {
@@ -179,6 +181,8 @@ const MainApp = () => {
         return <SzablonyTab />;
       case "kursy":
         return <KursyTab initialCourseId={initialCourseId} onCourseOpened={() => setInitialCourseId(null)} />;
+      case "materialy":
+        return <MaterialyTab />;
       case "wsparcie":
         return <WsparcieTab />;
       case "profil":
