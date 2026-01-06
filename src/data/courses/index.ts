@@ -12,6 +12,9 @@ import { storiesKomunikacjaCourse } from "./stories-komunikacja";
 import { relacjeZKlientkamiCourse } from "./relacje-z-klientkami";
 import { planowanieSystemCourse } from "./planowanie-system";
 import { organicKampanieCourse } from "./organic-kampanie";
+import { sprzedazUslugCourse } from "./sprzedaz-uslug";
+import { budowanieLojalosciCourse } from "./budowanie-lojalnosci";
+import { profesjonalnaObslugaCourse } from "./profesjonalna-obsluga";
 
 export const courses: Course[] = [
   wprowadzenieCourse, 
@@ -26,5 +29,8 @@ export const courses: Course[] = [
   storiesKomunikacjaCourse,
   relacjeZKlientkamiCourse,
   planowanieSystemCourse,
-  organicKampanieCourse
+  organicKampanieCourse,
+  sprzedazUslugCourse,
+  budowanieLojalosciCourse,
+  profesjonalnaObslugaCourse
 ];
