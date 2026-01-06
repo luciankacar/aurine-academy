@@ -14,12 +14,14 @@ export const useIsOwner = () => {
         setLoading(false);
         return;
       }
+      // Check user_roles table for owner role
       const { data } = await supabase
-        .from('profiles')
-        .select('is_owner')
+        .from('user_roles')
+        .select('role')
         .eq('user_id', user.id)
+        .eq('role', 'owner')
         .maybeSingle();
-      setIsOwner(data?.is_owner ?? false);
+      setIsOwner(!!data);
       setLoading(false);
     };
     check();
