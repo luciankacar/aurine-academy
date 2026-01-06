@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { 
   Sparkles, ArrowRight, Calendar, Check,
   Instagram, Facebook, Video, Image, Lightbulb,
-  Loader2, RefreshCw, ChevronDown, ChevronUp, Info, Target, Users, Heart, HelpCircle
+  Loader2, RefreshCw, ChevronDown, ChevronUp, Info, Target, Users, Heart
 } from "lucide-react";
 import {
   Popover,
@@ -410,7 +410,7 @@ const GeneratorStrategiiTab = ({ onAddToCalendar }: GeneratorStrategiiTabProps) 
               <Popover>
                 <PopoverTrigger asChild>
                   <button type="button" className="text-muted-foreground hover:text-primary transition-colors">
-                    <HelpCircle className="w-3.5 h-3.5" />
+                    <Lightbulb className="w-3.5 h-3.5" />
                   </button>
                 </PopoverTrigger>
                 <PopoverContent side="top" className="w-64 text-xs bg-popover border-border z-50">
@@ -438,7 +438,7 @@ const GeneratorStrategiiTab = ({ onAddToCalendar }: GeneratorStrategiiTabProps) 
               <Popover>
                 <PopoverTrigger asChild>
                   <button type="button" className="text-muted-foreground hover:text-primary transition-colors">
-                    <HelpCircle className="w-3.5 h-3.5" />
+                    <Lightbulb className="w-3.5 h-3.5" />
                   </button>
                 </PopoverTrigger>
                 <PopoverContent side="top" className="w-64 text-xs bg-popover border-border z-50">
@@ -550,7 +550,7 @@ const GeneratorStrategiiTab = ({ onAddToCalendar }: GeneratorStrategiiTabProps) 
               <Popover>
                 <PopoverTrigger asChild>
                   <button type="button" className="text-muted-foreground hover:text-primary transition-colors">
-                    <HelpCircle className="w-3.5 h-3.5" />
+                    <Lightbulb className="w-3.5 h-3.5" />
                   </button>
                 </PopoverTrigger>
                 <PopoverContent side="top" className="w-64 text-xs bg-popover border-border z-50">
