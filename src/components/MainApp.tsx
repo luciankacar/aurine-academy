@@ -69,12 +69,11 @@ const MainApp = () => {
   const isDark = resolvedTheme === "dark";
   const fullBleed = activeTab === "szablony";
 
-  // Auth redirect disabled for now
-  // useEffect(() => {
-  //   if (!loading && !user) {
-  //     navigate('/auth');
-  //   }
-  // }, [user, loading, navigate]);
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -113,20 +112,19 @@ const MainApp = () => {
     setNotifications(prev => prev.filter(n => n.id !== id));
   };
 
-  // Loading and auth checks disabled for now
-  // if (loading) {
-  //   return (
-  //     <div className={`w-full min-h-screen flex items-center justify-center ${isDark ? 'bg-neutral-950' : 'bg-gradient-to-br from-pink-50 via-white to-purple-50'}`}>
-  //       <div className="flex flex-col items-center gap-3">
-  //         <Loader2 className="w-10 h-10 text-pink-500 animate-spin" />
-  //         <p className={`text-sm ${isDark ? 'text-muted-foreground' : 'text-gray-500'}`}>Ładowanie...</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-  // if (!user) {
-  //   return null;
-  // }
+  if (loading) {
+    return (
+      <div className={`w-full min-h-screen flex items-center justify-center ${isDark ? 'bg-neutral-950' : 'bg-gradient-to-br from-pink-50 via-white to-purple-50'}`}>
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-10 h-10 text-pink-500 animate-spin" />
+          <p className={`text-sm ${isDark ? 'text-muted-foreground' : 'text-gray-500'}`}>Ładowanie...</p>
+        </div>
+      </div>
+    );
+  }
+  if (!user) {
+    return null;
+  }
 
   const tabs = [
     { id: "start", icon: Home, label: "Start" },
