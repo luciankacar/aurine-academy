@@ -52,6 +52,7 @@ export type Database = {
           display_name: string | null
           email: string | null
           id: string
+          is_owner: boolean
           phone: string | null
           salon_name: string | null
           updated_at: string
@@ -64,6 +65,7 @@ export type Database = {
           display_name?: string | null
           email?: string | null
           id?: string
+          is_owner?: boolean
           phone?: string | null
           salon_name?: string | null
           updated_at?: string
@@ -76,6 +78,7 @@ export type Database = {
           display_name?: string | null
           email?: string | null
           id?: string
+          is_owner?: boolean
           phone?: string | null
           salon_name?: string | null
           updated_at?: string
