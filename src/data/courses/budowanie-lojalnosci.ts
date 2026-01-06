@@ -8,7 +8,7 @@ export const budowanieLojalosciCourse: Course = {
   color: "#f43f5e",
   estimatedHours: 2,
   totalLessons: 3,
-  isStaffTraining: true,
+  
   modules: [
     {
       id: "lojalnosc-m1",
@@ -110,6 +110,17 @@ export const budowanieLojalosciCourse: Course = {
                 explanation: "Słuchanie pokazuje empatię i daje informacje o tym, czego klientka NIE chce. Mówienie że zrobisz inaczej buduje zaufanie. Nie krytykujesz konkurencji, ale pokazujesz że słuchasz."
               }
             }
+          ],
+          tasks: [],
+          checklist: [
+            { id: "lojalnosc-l1-check-1", text: "Rozumiem znaczenie pierwszych 10 minut wizyty" },
+            { id: "lojalnosc-l1-check-2", text: "Wiem jak przeprowadzić mini-wywiad z nową klientką" },
+            { id: "lojalnosc-l1-check-3", text: "Znam elementy idealnego pożegnania" }
+          ],
+          keyTakeaways: [
+            "Pierwsze 10 minut decyduje o przyszłości relacji z klientką",
+            "Wyprzedzaj obawy klientki zanim się ujawnią",
+            "Nigdy nie kończ wizyty informacją o cenie – dodaj coś ciepłego"
           ]
         },
         // ═══════════════════════════════════════════════════════════════════
@@ -188,6 +199,17 @@ export const budowanieLojalosciCourse: Course = {
                 explanation: "Pytanie o osobistą sprawę pokazuje, że pamiętasz i zależy Ci. Klientka czuje się ważna jako osoba, nie tylko jako źródło przychodu. To buduje lojalność emocjonalną."
               }
             }
+          ],
+          tasks: [],
+          checklist: [
+            { id: "lojalnosc-l2-check-1", text: "Rozumiem trzy poziomy lojalności klientek" },
+            { id: "lojalnosc-l2-check-2", text: "Wiem jakie osobiste szczegóły warto zapamiętywać" },
+            { id: "lojalnosc-l2-check-3", text: "Znam gesty budujące emocjonalne przywiązanie" }
+          ],
+          keyTakeaways: [
+            "Lojalność emocjonalna jest najtrwalsza – buduj ją przez osobiste relacje",
+            "Zapamiętuj szczegóły z życia klientek i pytaj o nie przy następnych wizytach",
+            "Małe gesty (urodziny, próbki) kosztują grosze ale tworzą silne więzi"
           ]
         },
         // ═══════════════════════════════════════════════════════════════════
@@ -266,6 +288,17 @@ export const budowanieLojalosciCourse: Course = {
                 explanation: "Dając wizytówkę z rabatem zamieniasz intencję w konkretne działanie. Klientka ma co dać koleżance, koleżanka ma motywację przyjść. Win-win."
               }
             }
+          ],
+          tasks: [],
+          checklist: [
+            { id: "lojalnosc-l3-check-1", text: "Wiem dlaczego samo zadowolenie nie wystarczy do polecania" },
+            { id: "lojalnosc-l3-check-2", text: "Potrafię naturalnie prosić o polecenie" },
+            { id: "lojalnosc-l3-check-3", text: "Znam podstawy programu poleceń" }
+          ],
+          keyTakeaways: [
+            "Zadowolenie to za mało – klientka potrzebuje pretekstu i narzędzi do polecania",
+            "Proś o polecenie po szczególnie udanych wizytach",
+            "Wizytówki \"z polecenia\" z rabatem zwiększają skuteczność rekomendacji"
           ]
         }
       ]

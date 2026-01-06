@@ -8,7 +8,7 @@ export const profesjonalnaObslugaCourse: Course = {
   color: "#8b5cf6",
   estimatedHours: 2,
   totalLessons: 3,
-  isStaffTraining: true,
+  
   modules: [
     {
       id: "obsluga-m1",
@@ -111,6 +111,17 @@ export const profesjonalnaObslugaCourse: Course = {
                 explanation: "Aktywne słuchanie + podsumowanie to fundament. Klientka czuje się zrozumiana, Ty masz pewność że robisz to, czego ona naprawdę chce."
               }
             }
+          ],
+          tasks: [],
+          checklist: [
+            { id: "obsluga-l1-check-1", text: "Rozumiem zasady aktywnego słuchania" },
+            { id: "obsluga-l1-check-2", text: "Wiem jak używać języka pozytywnego zamiast negatywnego" },
+            { id: "obsluga-l1-check-3", text: "Znam znaczenie komunikacji niewerbalnej" }
+          ],
+          keyTakeaways: [
+            "Słuchaj żeby zrozumieć, nie żeby odpowiedzieć",
+            "55% komunikacji to mowa ciała – dbaj o otwartą postawę i uśmiech",
+            "Mów co możesz, nie co nie możesz – język pozytywny zawsze lepiej działa"
           ]
         },
         // ═══════════════════════════════════════════════════════════════════
@@ -189,6 +200,17 @@ export const profesjonalnaObslugaCourse: Course = {
                 explanation: "Publiczne przeprosiny pokazują że zależy Ci na jakości. Prośba o kontakt prywatny pozwala rozwiązać problem bez publicznej dyskusji. Inni widzą że reagujesz profesjonalnie."
               }
             }
+          ],
+          tasks: [],
+          checklist: [
+            { id: "obsluga-l2-check-1", text: "Znam metodę LEARN do obsługi reklamacji" },
+            { id: "obsluga-l2-check-2", text: "Wiem czego nie mówić przy reklamacji" },
+            { id: "obsluga-l2-check-3", text: "Rozumiem kiedy i jak profesjonalnie odmówić" }
+          ],
+          keyTakeaways: [
+            "Reklamacja dobrze rozwiązana może zwiększyć lojalność klientki",
+            "Słuchaj, okaż empatię, przeproś, rozwiąż problem – w tej kolejności",
+            "Nigdy nie kłóć się publicznie – zawsze proponuj kontakt prywatny"
           ]
         },
         // ═══════════════════════════════════════════════════════════════════
@@ -267,6 +289,17 @@ export const profesjonalnaObslugaCourse: Course = {
                 explanation: "Szybkie tempo, zorientowanie na czas, brak small talku, konkretne polecenie – to klasyczna Dominująca. Daj jej to szybko i dobrze, bez zbędnych rozmów."
               }
             }
+          ],
+          tasks: [],
+          checklist: [
+            { id: "obsluga-l3-check-1", text: "Znam 4 typy osobowości DISC i jak je rozpoznać" },
+            { id: "obsluga-l3-check-2", text: "Wiem jak dostosować komunikację do każdego typu" },
+            { id: "obsluga-l3-check-3", text: "Potrafię radzić sobie z trudnymi osobowościami" }
+          ],
+          keyTakeaways: [
+            "Rozpoznanie typu osobowości zajmuje 2-3 minuty rozmowy",
+            "Każdy typ wymaga innego stylu komunikacji",
+            "Elastyczność w dostosowywaniu stylu to klucz do sukcesu"
           ]
         }
       ]
