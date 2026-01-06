@@ -409,7 +409,7 @@ const GeneratorStrategiiTab = ({ onAddToCalendar }: GeneratorStrategiiTabProps) 
               Typ salonu <span className="text-primary">*</span>
               <Popover>
                 <PopoverTrigger asChild>
-                  <button type="button" className="text-muted-foreground hover:text-primary transition-colors">
+                  <button type="button" className="text-amber-500 hover:text-amber-600 transition-colors">
                     <Lightbulb className="w-3.5 h-3.5" />
                   </button>
                 </PopoverTrigger>
@@ -437,7 +437,7 @@ const GeneratorStrategiiTab = ({ onAddToCalendar }: GeneratorStrategiiTabProps) 
               Twoje klientki
               <Popover>
                 <PopoverTrigger asChild>
-                  <button type="button" className="text-muted-foreground hover:text-primary transition-colors">
+                  <button type="button" className="text-amber-500 hover:text-amber-600 transition-colors">
                     <Lightbulb className="w-3.5 h-3.5" />
                   </button>
                 </PopoverTrigger>
@@ -549,7 +549,7 @@ const GeneratorStrategiiTab = ({ onAddToCalendar }: GeneratorStrategiiTabProps) 
               Dodatkowe informacje
               <Popover>
                 <PopoverTrigger asChild>
-                  <button type="button" className="text-muted-foreground hover:text-primary transition-colors">
+                  <button type="button" className="text-amber-500 hover:text-amber-600 transition-colors">
                     <Lightbulb className="w-3.5 h-3.5" />
                   </button>
                 </PopoverTrigger>
