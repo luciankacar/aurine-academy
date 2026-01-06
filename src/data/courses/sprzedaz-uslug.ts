@@ -8,7 +8,7 @@ export const sprzedazUslugCourse: Course = {
   color: "#10b981",
   estimatedHours: 2.5,
   totalLessons: 4,
-  isStaffTraining: true,
+  
   modules: [
     {
       id: "sprzedaz-m1",
@@ -93,6 +93,17 @@ export const sprzedazUslugCourse: Course = {
                 explanation: "Najlepsza sprzedaż zaczyna się od zrozumienia problemu. Pytając o nawyki (mycie naczyń bez rękawiczek? mało wody? obgryzanie?) budujesz zaufanie i możesz zaproponować naprawdę pomocne rozwiązanie, nie przypadkowy produkt."
               }
             }
+          ],
+          tasks: [],
+          checklist: [
+            { id: "sprzedaz-l1-check-1", text: "Wiem czym różni się naturalne polecanie od nachalnej sprzedaży" },
+            { id: "sprzedaz-l1-check-2", text: "Rozumiem trzy typy decyzji zakupowych klientek" },
+            { id: "sprzedaz-l1-check-3", text: "Znam najlepsze i najgorsze momenty na propozycje sprzedażowe" }
+          ],
+          keyTakeaways: [
+            "Najskuteczniejsza sprzedaż wygląda jak szczera troska o dobro klientki",
+            "Timing jest kluczowy – proponuj podczas zabiegu, gdy klientka jest zrelaksowana",
+            "Pytaj o potrzeby zanim cokolwiek zaproponujesz"
           ]
         },
         // ═══════════════════════════════════════════════════════════════════
@@ -184,6 +195,17 @@ export const sprzedazUslugCourse: Course = {
                 explanation: "Wakacje to doskonały pretekst do zaproponowania pedicure (będzie nosić sandały) i przypomnienia o terminie (nie chce chodzić z odrostem na plaży). To naturalna troska, nie nachalna sprzedaż."
               }
             }
+          ],
+          tasks: [],
+          checklist: [
+            { id: "sprzedaz-l2-check-1", text: "Rozumiem różnicę między upsellingiem a cross-sellingiem" },
+            { id: "sprzedaz-l2-check-2", text: "Znam zasadę 25% dla cross-sellingu" },
+            { id: "sprzedaz-l2-check-3", text: "Wiem jak naturalnie proponować produkty do domu" }
+          ],
+          keyTakeaways: [
+            "Upselling to pokazanie wartości lepszej opcji, nie samej ceny",
+            "Proponuj maksymalnie jedną dodatkową usługę na raz",
+            "Używaj produktów podczas zabiegu – klientka sama zapyta o kupno"
           ]
         },
         // ═══════════════════════════════════════════════════════════════════
@@ -257,6 +279,17 @@ export const sprzedazUslugCourse: Course = {
                 explanation: "\"Zastanowię się\" może oznaczać różne rzeczy. Pytając o konkretną wątpliwość możesz ją rozwiązać od razu. Propozycja wysłania informacji zostawia otwarte drzwi bez presji."
               }
             }
+          ],
+          tasks: [],
+          checklist: [
+            { id: "sprzedaz-l3-check-1", text: "Znam metodę LAPA do radzenia sobie z obiekcjami" },
+            { id: "sprzedaz-l3-check-2", text: "Wiem jak odpowiadać na \"za drogo\" bez obniżania ceny" },
+            { id: "sprzedaz-l3-check-3", text: "Potrafię zamienić \"ale\" na \"i\" w prezentacji wartości" }
+          ],
+          keyTakeaways: [
+            "\"Za drogo\" zwykle oznacza brak widocznej wartości, nie brak pieniędzy",
+            "Nigdy nie przepraszaj za cenę – stój za nią z pewnością",
+            "Pytaj o konkretne wątpliwości zamiast od razu obniżać cenę"
           ]
         },
         // ═══════════════════════════════════════════════════════════════════
@@ -355,6 +388,17 @@ export const sprzedazUslugCourse: Course = {
                 explanation: "Konkretna korzyść (mniej wizyt) pokazana przez liczby (5 tygodni, 4 vs 1 wizyta) jest najbardziej przekonująca. Klientka widzi realną oszczędność czasu i pieniędzy."
               }
             }
+          ],
+          tasks: [],
+          checklist: [
+            { id: "sprzedaz-l4-check-1", text: "Rozumiem różnicę między cechami a korzyściami" },
+            { id: "sprzedaz-l4-check-2", text: "Potrafię opowiadać historie sukcesu klientek" },
+            { id: "sprzedaz-l4-check-3", text: "Wiem jak kwantyfikować wartość usług" }
+          ],
+          keyTakeaways: [
+            "Mów o korzyściach dla klientki, nie o cechach produktu",
+            "Używaj historii sukcesu innych klientek jako dowodu",
+            "Kwantyfikuj wartość – konkretne liczby są przekonujące"
           ]
         }
       ]
