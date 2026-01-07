@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { BookOpen, Clock, ChevronRight, ChevronDown, ChevronUp, Play, Sparkles, ArrowRight, Star, Layers, CheckCircle2, GraduationCap } from "lucide-react";
+import { BookOpen, Clock, ChevronRight, ChevronDown, ChevronUp, Play, Sparkles, ArrowRight, Star, Layers, CheckCircle2, GraduationCap, Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import { courses } from "@/data/courses";
@@ -8,12 +8,12 @@ import CourseDetailView from "@/components/courses/CourseDetailView";
 import LessonView from "@/components/courses/LessonView";
 import IntroLessonView from "@/components/courses/IntroLessonView";
 import CourseTransitionScreen from "@/components/courses/CourseTransitionScreen";
-import EmployeeCoursesSection from "@/components/courses/EmployeeCoursesSection";
-import EmployeeCourseDetailView from "@/components/courses/EmployeeCourseDetailView";
+import EmployeeCoursesListView from "@/components/courses/EmployeeCoursesListView";
 import { useCourseProgress } from "@/hooks/useCourseProgress";
 import { getCourseColorScheme, getCourseIcon } from "@/lib/courseColors";
-import { useIsOwner } from "@/hooks/useIsOwner";
 import type { EmployeeCourseDefinition } from "@/data/employee-courses";
+import { employeeCourseToCourse } from "@/lib/employeeCourseAdapter";
+import { downloadEmployeeCoursePdf } from "@/lib/employeeCoursePdf";
 
 
 const pageTransition = {
@@ -34,7 +34,6 @@ interface KursyTabProps {
 const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
-  const { isOwner } = useIsOwner();
   const { progress, loading: progressLoading, completeLesson, getCourseProgress, getOverallProgress, isLessonCompleted, getCompletedLessonsCount } = useCourseProgress();
   
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -42,7 +41,9 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
   const [introLessonIndex, setIntroLessonIndex] = useState<number | null>(null);
   const [isRoadmapExpanded, setIsRoadmapExpanded] = useState(false);
   const [courseTransition, setCourseTransition] = useState<{ from: Course; to: Course } | null>(null);
-  const [selectedEmployeeCourse, setSelectedEmployeeCourse] = useState<EmployeeCourseDefinition | null>(null);
+
+  const [isEmployeeCoursesOpen, setIsEmployeeCoursesOpen] = useState(false);
+  const [selectedEmployeeCourseDef, setSelectedEmployeeCourseDef] = useState<EmployeeCourseDefinition | null>(null);
   
   
   // Store the calculated course index to prevent flicker
@@ -175,7 +176,9 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
 
   // Determine current view key for animation
   const getViewKey = () => {
-    if (selectedEmployeeCourse) return `employee-${selectedEmployeeCourse.id}`;
+    if (isEmployeeCoursesOpen && !selectedCourse && !selectedLesson && introLessonIndex === null && !courseTransition) {
+      return "employee-list";
+    }
     if (courseTransition) return "transition";
     if (introLessonIndex !== null) return `intro-${introLessonIndex}`;
     if (selectedLesson) return `lesson-${selectedLesson.id}`;
@@ -185,12 +188,18 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
 
   // Render content based on current state
   const renderContent = () => {
-    // Show employee course detail view
-    if (selectedEmployeeCourse) {
+    // Employee courses list view
+    if (isEmployeeCoursesOpen && !selectedCourse && !selectedLesson && introLessonIndex === null) {
       return (
-        <EmployeeCourseDetailView
-          course={selectedEmployeeCourse}
-          onBack={() => setSelectedEmployeeCourse(null)}
+        <EmployeeCoursesListView
+          onBack={() => {
+            setIsEmployeeCoursesOpen(false);
+            setSelectedEmployeeCourseDef(null);
+          }}
+          onSelect={(courseDef) => {
+            setSelectedEmployeeCourseDef(courseDef);
+            setSelectedCourse(employeeCourseToCourse(courseDef));
+          }}
         />
       );
     }
@@ -255,16 +264,20 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
         }
       };
 
+      const isEmployeeCourse = !!selectedEmployeeCourseDef;
+
       return (
         <LessonView 
           lesson={selectedLesson}
           courseId={selectedCourse.id}
           onBack={() => setSelectedLesson(null)}
-          onNext={nextLessonInCourse ? handleNext : undefined}
-          onFinishCourse={isLastLesson ? handleFinishCourse : undefined}
-          hasNext={!!nextLessonInCourse}
-          isLastLesson={isLastLesson}
-          hasNextCourse={!!nextCourse}
+          onNext={!isEmployeeCourse && nextLessonInCourse ? handleNext : undefined}
+          onFinishCourse={!isEmployeeCourse && isLastLesson ? handleFinishCourse : undefined}
+          hasNext={!isEmployeeCourse && !!nextLessonInCourse}
+          isLastLesson={!isEmployeeCourse && isLastLesson}
+          hasNextCourse={!isEmployeeCourse && !!nextCourse}
+          onDownloadPdf={isEmployeeCourse ? () => downloadEmployeeCoursePdf(selectedEmployeeCourseDef!) : undefined}
+          downloadPdfLabel={isEmployeeCourse ? "Pobierz PDF" : undefined}
         />
       );
     }
@@ -280,7 +293,10 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
       return (
         <CourseDetailView 
           course={selectedCourse}
-          onBack={() => setSelectedCourse(null)}
+          onBack={() => {
+            setSelectedCourse(null);
+            if (isEmployeeCoursesOpen) setSelectedEmployeeCourseDef(null);
+          }}
           onSelectLesson={setSelectedLesson}
         />
       );
@@ -569,8 +585,34 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
         </div>
       </div>
 
-      {/* Kursy dla pracowników */}
-      <EmployeeCoursesSection onSelectCourse={setSelectedEmployeeCourse} />
+      {/* Kursy dla pracowników (mały kafelek → osobna lista) */}
+      <div
+        onClick={() => {
+          setIsEmployeeCoursesOpen(true);
+          setSelectedEmployeeCourseDef(null);
+          setSelectedCourse(null);
+          setSelectedLesson(null);
+          setIntroLessonIndex(null);
+          setCourseTransition(null);
+          window.scrollTo(0, 0);
+        }}
+        className={`mb-6 relative rounded-xl border overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md ${
+          isDark
+            ? "bg-gradient-to-br from-teal-950/45 via-card to-cyan-950/25 border-teal-500/20 hover:border-teal-500/40"
+            : "bg-gradient-to-br from-teal-50 via-card to-cyan-50 border-teal-200/50 hover:border-teal-300"
+        }`}
+      >
+        <div className="p-3.5 flex items-center gap-3">
+          <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center shadow-md shadow-teal-500/20">
+            <Users className="h-5 w-5 text-white" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-sm font-semibold text-foreground">Kursy dla pracowników</h3>
+            <p className="text-[11px] text-muted-foreground line-clamp-1">Kliknij, żeby przejść do listy i pobrać PDF</p>
+          </div>
+          <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+        </div>
+      </div>
 
       {/* Polecane dla Ciebie - kursy dopasowane do postępu */}
       <div>
