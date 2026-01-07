@@ -1,19 +1,12 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  // Poprawny App ID w formacie Java package
-  appId: 'com.lovable.aurineacademy',
+  appId: 'com.lovable.aurineacademy', // poprawny format
   appName: 'Aurine Academy',
-  
-  // Folder zbudowanego frontendu PWA (dist po npm run build)
-  webDir: 'dist',
-
-  // Nie ustawiamy URL, żeby aplikacja działała offline
+  webDir: 'dist', // folder PWA
   server: {
     cleartext: true
   },
-
-  // Opcjonalnie: jeśli chcesz wymusić, żeby pluginy Capacitor działały od razu
   android: {
     allowMixedContent: true
   }
