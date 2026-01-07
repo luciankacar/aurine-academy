@@ -8,10 +8,17 @@ import CourseDetailView from "@/components/courses/CourseDetailView";
 import LessonView from "@/components/courses/LessonView";
 import IntroLessonView from "@/components/courses/IntroLessonView";
 import CourseTransitionScreen from "@/components/courses/CourseTransitionScreen";
-import EmployeeMaterialsSection from "@/components/courses/EmployeeMaterialsSection";
+import EmployeeCoursesSection from "@/components/courses/EmployeeCoursesSection";
+import EmployeeCourseDetailView from "@/components/courses/EmployeeCourseDetailView";
 import { useCourseProgress } from "@/hooks/useCourseProgress";
 import { getCourseColorScheme, getCourseIcon } from "@/lib/courseColors";
 import { useIsOwner } from "@/hooks/useIsOwner";
+
+interface EmployeeCourse {
+  name: string;
+  size: number;
+  created_at?: string;
+}
 
 
 const pageTransition = {
@@ -40,6 +47,7 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
   const [introLessonIndex, setIntroLessonIndex] = useState<number | null>(null);
   const [isRoadmapExpanded, setIsRoadmapExpanded] = useState(false);
   const [courseTransition, setCourseTransition] = useState<{ from: Course; to: Course } | null>(null);
+  const [selectedEmployeeCourse, setSelectedEmployeeCourse] = useState<EmployeeCourse | null>(null);
   
   
   // Store the calculated course index to prevent flicker
@@ -172,7 +180,7 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
 
   // Determine current view key for animation
   const getViewKey = () => {
-    
+    if (selectedEmployeeCourse) return `employee-${selectedEmployeeCourse.name}`;
     if (courseTransition) return "transition";
     if (introLessonIndex !== null) return `intro-${introLessonIndex}`;
     if (selectedLesson) return `lesson-${selectedLesson.id}`;
@@ -182,6 +190,16 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
 
   // Render content based on current state
   const renderContent = () => {
+    // Show employee course detail view
+    if (selectedEmployeeCourse) {
+      return (
+        <EmployeeCourseDetailView
+          course={selectedEmployeeCourse}
+          onBack={() => setSelectedEmployeeCourse(null)}
+        />
+      );
+    }
+
     // Show course transition screen
     if (courseTransition) {
       return (
@@ -556,8 +574,8 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
         </div>
       </div>
 
-      {/* Materiały dla pracowników - tylko dla właścicielki */}
-      {isOwner && <EmployeeMaterialsSection />}
+      {/* Kursy dla pracowników */}
+      <EmployeeCoursesSection onSelectCourse={setSelectedEmployeeCourse} />
 
       {/* Polecane dla Ciebie - kursy dopasowane do postępu */}
       <div>
