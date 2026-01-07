@@ -13,12 +13,7 @@ import EmployeeCourseDetailView from "@/components/courses/EmployeeCourseDetailV
 import { useCourseProgress } from "@/hooks/useCourseProgress";
 import { getCourseColorScheme, getCourseIcon } from "@/lib/courseColors";
 import { useIsOwner } from "@/hooks/useIsOwner";
-
-interface EmployeeCourse {
-  name: string;
-  size: number;
-  created_at?: string;
-}
+import type { EmployeeCourseDefinition } from "@/data/employee-courses";
 
 
 const pageTransition = {
@@ -47,7 +42,7 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
   const [introLessonIndex, setIntroLessonIndex] = useState<number | null>(null);
   const [isRoadmapExpanded, setIsRoadmapExpanded] = useState(false);
   const [courseTransition, setCourseTransition] = useState<{ from: Course; to: Course } | null>(null);
-  const [selectedEmployeeCourse, setSelectedEmployeeCourse] = useState<EmployeeCourse | null>(null);
+  const [selectedEmployeeCourse, setSelectedEmployeeCourse] = useState<EmployeeCourseDefinition | null>(null);
   
   
   // Store the calculated course index to prevent flicker
@@ -180,7 +175,7 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
 
   // Determine current view key for animation
   const getViewKey = () => {
-    if (selectedEmployeeCourse) return `employee-${selectedEmployeeCourse.name}`;
+    if (selectedEmployeeCourse) return `employee-${selectedEmployeeCourse.id}`;
     if (courseTransition) return "transition";
     if (introLessonIndex !== null) return `intro-${introLessonIndex}`;
     if (selectedLesson) return `lesson-${selectedLesson.id}`;

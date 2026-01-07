@@ -98,7 +98,7 @@ export const employeeCourses: EmployeeCourseDefinition[] = [
   },
   {
     id: "higiena-stanowiska",
-    title: "Higiena stanowiska (checklista) प्रेर",
+    title: "Higiena stanowiska (checklista)",
     description: "Krótka checklista: przed, w trakcie i po usłudze.",
     estimatedMinutes: 8,
     sections: [
