@@ -1,10 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import { FolderOpen, Download, Trash2, Upload, Loader2, Plus, ChevronRight, BookOpen, Clock, Play } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { BookOpen, ChevronRight, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 import { useTheme } from "@/contexts/ThemeContext";
-import { useIsOwner } from "@/hooks/useIsOwner";
 
 interface EmployeeCourse {
   name: string;
@@ -12,16 +9,39 @@ interface EmployeeCourse {
   created_at?: string;
 }
 
+type CoursePreview = {
+  title: string;
+  excerpt: string;
+  hasMarkdown: boolean;
+};
+
 const formatBytes = (bytes: number) => {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 };
 
-// Get file extension without dot
+const getBaseName = (filename: string) => filename.replace(/\.[^/.]+$/, "");
+
 const getFileExtension = (filename: string): string => {
-  const ext = filename.split('.').pop()?.toUpperCase() || '';
+  const ext = filename.split(".").pop()?.toUpperCase() || "";
   return ext;
+};
+
+const parseMarkdownPreview = (markdown: string, fallbackTitle: string): Omit<CoursePreview, "hasMarkdown"> => {
+  const lines = markdown
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  let title = fallbackTitle;
+  const h1 = lines.find((l) => l.startsWith("# "));
+  if (h1) title = h1.replace(/^#\s+/, "").trim();
+
+  const excerptLine = lines.find((l) => !l.startsWith("#") && !l.startsWith("-") && !l.startsWith("*") && l.length > 0);
+  const excerpt = (excerptLine || "").slice(0, 140);
+
+  return { title, excerpt };
 };
 
 interface EmployeeCoursesSectionProps {
@@ -31,193 +51,214 @@ interface EmployeeCoursesSectionProps {
 const EmployeeCoursesSection = ({ onSelectCourse }: EmployeeCoursesSectionProps) => {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
-  const { isOwner } = useIsOwner();
-  const inputRef = useRef<HTMLInputElement>(null);
+
   const [courses, setCourses] = useState<EmployeeCourse[]>([]);
   const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
-  const [deleting, setDeleting] = useState<string | null>(null);
+  const [previews, setPreviews] = useState<Record<string, CoursePreview>>({});
 
   const fetchCourses = async () => {
     setLoading(true);
+
     const { data, error } = await supabase.storage
       .from("employee-materials")
       .list("", { sortBy: { column: "created_at", order: "desc" } });
-    
+
     if (error) {
-      console.error("Error fetching courses:", error);
+      console.error("Error fetching employee courses:", error);
       setCourses([]);
-    } else {
-      setCourses(
-        (data || [])
-          .filter((f) => f.name !== ".emptyFolderPlaceholder")
-          .map((f) => ({ 
-            name: f.name, 
-            size: f.metadata?.size ?? 0,
-            created_at: f.created_at
-          }))
-      );
+      setPreviews({});
+      setLoading(false);
+      return;
     }
+
+    const list = (data || [])
+      .filter((f) => f.name !== ".emptyFolderPlaceholder")
+      .filter((f) => !f.name.toLowerCase().endsWith(".md"))
+      .map((f) => ({
+        name: f.name,
+        size: f.metadata?.size ?? 0,
+        created_at: f.created_at,
+      }));
+
+    setCourses(list);
     setLoading(false);
   };
 
+  // Load list
   useEffect(() => {
     fetchCourses();
   }, []);
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    const { error } = await supabase.storage
-      .from("employee-materials")
-      .upload(file.name, file, { upsert: true });
-    
-    if (error) {
-      console.error("Upload error:", error);
-      toast.error("Nie udało się przesłać kursu");
-    } else {
-      toast.success("Kurs dodany");
-      fetchCourses();
-    }
-    setUploading(false);
-    if (inputRef.current) inputRef.current.value = "";
-  };
+  // Load markdown previews (title + excerpt)
+  useEffect(() => {
+    let cancelled = false;
 
-  const handleDelete = async (e: React.MouseEvent, name: string) => {
-    e.stopPropagation();
-    setDeleting(name);
-    const { error } = await supabase.storage
-      .from("employee-materials")
-      .remove([name]);
-    
-    if (error) {
-      toast.error("Nie udało się usunąć kursu");
-    } else {
-      toast.success("Kurs usunięty");
-      fetchCourses();
-    }
-    setDeleting(null);
-  };
+    const loadPreviews = async () => {
+      const entries = await Promise.all(
+        courses.map(async (course) => {
+          const base = getBaseName(course.name);
+          const mdName = `${base}.md`;
+
+          const { data, error } = await supabase.storage
+            .from("employee-materials")
+            .createSignedUrl(mdName, 60);
+
+          if (error || !data?.signedUrl) {
+            return [course.name, { title: base, excerpt: "", hasMarkdown: false }] as const;
+          }
+
+          try {
+            const res = await fetch(data.signedUrl);
+            if (!res.ok) {
+              return [course.name, { title: base, excerpt: "", hasMarkdown: false }] as const;
+            }
+            const text = await res.text();
+            const parsed = parseMarkdownPreview(text, base);
+            return [course.name, { ...parsed, hasMarkdown: true }] as const;
+          } catch {
+            return [course.name, { title: base, excerpt: "", hasMarkdown: false }] as const;
+          }
+        })
+      );
+
+      if (cancelled) return;
+      setPreviews(Object.fromEntries(entries));
+    };
+
+    if (courses.length) loadPreviews();
+    else setPreviews({});
+
+    return () => {
+      cancelled = true;
+    };
+  }, [courses]);
+
+  const items = useMemo(() => {
+    return courses.map((course, idx) => {
+      const base = getBaseName(course.name);
+      const ext = getFileExtension(course.name);
+      const preview = previews[course.name];
+
+      return {
+        course,
+        idx,
+        base,
+        ext,
+        title: preview?.title ?? base,
+        excerpt: preview?.excerpt ?? "",
+        hasMarkdown: preview?.hasMarkdown ?? false,
+      };
+    });
+  }, [courses, previews]);
 
   return (
-    <div className="mb-7">
-      {/* Section Header */}
-      <div className="flex items-center justify-between mb-4">
+    <section className="mb-7" aria-label="Kursy dla pracowników">
+      <header className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="h-6 w-6 rounded-md bg-gradient-to-br from-teal-500/20 to-cyan-500/20 flex items-center justify-center border border-teal-500/30">
             <BookOpen className="h-3 w-3 text-teal-500" />
           </div>
           <div>
             <h2 className="text-sm font-semibold text-foreground">Kursy dla pracowników</h2>
-            <p className="text-[10px] text-muted-foreground">Materiały szkoleniowe do nauki</p>
+            <p className="text-[10px] text-muted-foreground">Wejdź w kurs, przeczytaj i pobierz</p>
           </div>
         </div>
-        
-        {/* Upload button - only for owner */}
-        {isOwner && (
-          <div>
-            <input ref={inputRef} type="file" className="hidden" onChange={handleUpload} />
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-7 text-[10px] gap-1 text-teal-600 hover:text-teal-700 hover:bg-teal-500/10"
-              onClick={() => inputRef.current?.click()} 
-              disabled={uploading}
-            >
-              {uploading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}
-              Dodaj kurs
-            </Button>
-          </div>
-        )}
-      </div>
+      </header>
 
-      {/* Courses List */}
       {loading ? (
         <div className="flex items-center justify-center py-8">
-          <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="h-4 w-4 rounded-full border-2 border-muted-foreground/30 border-t-muted-foreground/70 animate-spin" />
+            Ładowanie kursów…
+          </div>
         </div>
-      ) : courses.length === 0 ? (
-        <div className={`flex flex-col items-center justify-center py-8 rounded-xl border ${
-          isDark ? 'bg-card border-border/50' : 'bg-card border-border/30'
-        }`}>
-          <BookOpen className="h-8 w-8 text-muted-foreground/40 mb-2" />
-          <p className="text-xs text-muted-foreground">Brak kursów</p>
-          {isOwner && (
-            <p className="text-[10px] text-muted-foreground/60 mt-1">Dodaj pierwszy kurs powyżej</p>
-          )}
+      ) : items.length === 0 ? (
+        <div
+          className={`rounded-2xl border p-5 ${
+            isDark ? "bg-card border-border/50" : "bg-card border-border/30"
+          }`}
+        >
+          <div className="flex items-start gap-3">
+            <div className="h-10 w-10 rounded-xl bg-teal-500/10 flex items-center justify-center">
+              <FileText className="h-5 w-5 text-teal-500" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-foreground">Brak kursów dla pracowników</p>
+              <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                Kursy pojawią się tutaj, gdy zostaną dodane przez zespół Aurine.
+              </p>
+            </div>
+          </div>
         </div>
       ) : (
-        <div className="space-y-2.5">
-          {courses.map((course) => {
-            const ext = getFileExtension(course.name);
-            const nameWithoutExt = course.name.replace(/\.[^/.]+$/, "");
-            
-            return (
-              <div
-                key={course.name}
-                onClick={() => onSelectCourse(course)}
-                className={`group relative rounded-xl border overflow-hidden transition-all duration-200 cursor-pointer ${
-                  isDark 
-                    ? 'bg-gradient-to-br from-teal-950/30 via-card to-cyan-950/20 border-teal-500/20 hover:border-teal-500/40 hover:shadow-md hover:shadow-teal-500/10' 
-                    : 'bg-gradient-to-br from-teal-50/50 via-card to-cyan-50/30 border-teal-200/50 hover:border-teal-300 hover:shadow-md'
-                }`}
-              >
-                <div className="p-4 flex items-center gap-3">
-                  {/* Course Icon */}
-                  <div className={`relative flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-teal-500 to-cyan-500 shadow-md shadow-teal-500/20`}>
-                    <BookOpen className="h-5 w-5 text-white" />
-                    {/* File type badge */}
-                    <div className="absolute -bottom-1 -right-1 px-1 py-0.5 rounded text-[7px] font-bold bg-background border border-teal-500/30 text-teal-600 dark:text-teal-400">
-                      {ext}
+        <div className="grid gap-3">
+          {items.map(({ course, idx, ext, title, excerpt, hasMarkdown }) => (
+            <article
+              key={course.name}
+              onClick={() => onSelectCourse(course)}
+              className={`group relative rounded-2xl border overflow-hidden cursor-pointer transition-all duration-200 ${
+                isDark
+                  ? "bg-gradient-to-br from-teal-950/35 via-card to-cyan-950/20 border-teal-500/20 hover:border-teal-500/40 hover:shadow-md hover:shadow-teal-500/10"
+                  : "bg-gradient-to-br from-teal-50/60 via-card to-cyan-50/40 border-teal-200/60 hover:border-teal-300 hover:shadow-md"
+              }`}
+            >
+              <div className="p-4">
+                <div className="flex items-start gap-3">
+                  {/* Left badge */}
+                  <div className="shrink-0">
+                    <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-500 shadow-md shadow-teal-500/20 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">{idx + 1}</span>
                     </div>
-                  </div>
-                  
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-sm font-semibold text-foreground truncate group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
-                        {nameWithoutExt}
-                      </h3>
-                    </div>
-                    
-                    {/* Stats */}
-                    <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <FolderOpen className="h-3 w-3" />
-                        {formatBytes(course.size)}
+                    <div className="mt-2 flex items-center justify-center">
+                      <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-background/80 border border-teal-500/20 text-teal-600 dark:text-teal-400">
+                        {ext}
                       </span>
                     </div>
                   </div>
-                  
-                  {/* Actions */}
-                  <div className="flex items-center gap-1">
-                    {isOwner && (
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        className="h-8 w-8 shrink-0 text-destructive/60 hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-opacity" 
-                        onClick={(e) => handleDelete(e, course.name)} 
-                        disabled={deleting === course.name}
-                      >
-                        {deleting === course.name ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <Trash2 className="h-4 w-4" />
-                        )}
-                      </Button>
+
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-sm font-semibold text-foreground leading-snug truncate group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                      {title}
+                    </h3>
+
+                    {excerpt ? (
+                      <p className="text-xs text-muted-foreground mt-1 leading-relaxed line-clamp-2">
+                        {excerpt}
+                      </p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                        {hasMarkdown ? "Otwórz, aby przeczytać treść." : "Otwórz, aby pobrać materiał."}
+                      </p>
                     )}
-                    <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-teal-500/10 group-hover:bg-teal-500 transition-colors">
-                      <ChevronRight className="h-4 w-4 text-teal-500 group-hover:text-white transition-colors" />
+
+                    <div className="mt-3 flex items-center gap-2 flex-wrap">
+                      <span className="text-[10px] px-2 py-1 rounded-full bg-muted/40 text-muted-foreground">
+                        {formatBytes(course.size)}
+                      </span>
+                      <span className={`text-[10px] px-2 py-1 rounded-full border ${
+                        hasMarkdown
+                          ? "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20"
+                          : "bg-muted/40 text-muted-foreground border-border/50"
+                      }`}>
+                        {hasMarkdown ? "Treść w aplikacji" : "Brak opisu"}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="shrink-0">
+                    <div className="h-10 w-10 rounded-xl bg-teal-500/10 group-hover:bg-teal-500 transition-colors flex items-center justify-center">
+                      <ChevronRight className="h-5 w-5 text-teal-500 group-hover:text-white transition-colors" />
                     </div>
                   </div>
                 </div>
               </div>
-            );
-          })}
+            </article>
+          ))}
         </div>
       )}
-    </div>
+    </section>
   );
 };
 
 export default EmployeeCoursesSection;
+
