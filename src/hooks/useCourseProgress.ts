@@ -26,17 +26,22 @@ interface NextLesson {
 }
 
 export const useCourseProgress = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [progress, setProgress] = useState<LessonProgress[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch user's progress
   const fetchProgress = useCallback(async () => {
+    // Wait until auth resolves to avoid a false "no progress" state
+    if (authLoading) return;
+
     if (!user) {
       setProgress([]);
       setLoading(false);
       return;
     }
+
+    setLoading(true);
 
     try {
       const { data, error } = await supabase
@@ -54,7 +59,7 @@ export const useCourseProgress = () => {
     } finally {
       setLoading(false);
     }
-  }, [user]);
+  }, [user, authLoading]);
 
   useEffect(() => {
     fetchProgress();
