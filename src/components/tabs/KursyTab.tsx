@@ -38,8 +38,11 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
   const [isRoadmapExpanded, setIsRoadmapExpanded] = useState(false);
   const [courseTransition, setCourseTransition] = useState<{ from: Course; to: Course } | null>(null);
 
-  // Store the calculated course index - null until progress loads
-  const [currentCourseIndex, setCurrentCourseIndex] = useState<number | null>(null);
+  // Store last known course index to avoid UI jump on enter
+  const [currentCourseIndex, setCurrentCourseIndex] = useState(() => {
+    const stored = localStorage.getItem('currentCourseIndex');
+    return stored ? parseInt(stored, 10) : 0;
+  });
 
   // Handle initial course navigation
   useEffect(() => {
@@ -262,19 +265,6 @@ const KursyTab = ({ initialCourseId, onCourseOpened }: KursyTabProps) => {
           onBack={() => setSelectedCourse(null)}
           onSelectLesson={setSelectedLesson}
         />
-      );
-    }
-
-    // Wait for progress to load before showing course list (prevents flicker)
-    if (progressLoading || currentCourseIndex === null) {
-      return (
-        <div className="px-4 py-5 pb-14">
-          <div className="animate-pulse space-y-4">
-            <div className="h-16 bg-muted/50 rounded-xl" />
-            <div className="h-24 bg-muted/50 rounded-xl" />
-            <div className="h-48 bg-muted/50 rounded-xl" />
-          </div>
-        </div>
       );
     }
 
